@@ -45,4 +45,18 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616" />
+    </bean>
+
+    <bean id="messageDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="chatQueue" />
+    </bean>
+
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="messageDestination"/>
+        <property name="messageListener" ref="chatMessageListener" />
+    </bean>
 </beans>

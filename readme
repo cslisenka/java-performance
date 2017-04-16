@@ -1,4 +1,13 @@
+Dynotrace agent configuration
 frontent-spring-boot:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=desktop-j2vhacg:9998
 
+backend-tomcat:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998
+
+ActiveMQ
+-agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagent.dll"=name=ActiveMQ_TestPOC,server=desktop-j2vhacg:9998
+
+C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq start
+C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq stop
+http://localhost:8161/admin/
