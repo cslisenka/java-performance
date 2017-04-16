@@ -1,0 +1,4 @@
+frontent-spring-boot:
+-agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=desktop-j2vhacg:9998
+
+-agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998
