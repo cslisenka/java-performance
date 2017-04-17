@@ -1,5 +1,6 @@
 package com.frontend;
 
+import com.frontend.service.ChatBackendService;
 import com.frontend.ws.MessageAddRequest;
 import com.frontend.ws.MessageAddResponse;
 import com.frontend.ws.TextMessage;
@@ -29,42 +30,23 @@ import javax.jms.Session;
 @Configuration
 public class FrontendAppMain {
 
-    public static final String ADD_MESSAGE_URL = "http://localhost:8988/addMessage";
-    public static final String GET_MESSAGES_URL = "http://localhost:8988/getMessages";
-
     @Autowired
-    private JmsTemplate jmsTemplate;
+    private ChatBackendService chatService;
 
     public static void main(String[] args) {
 		SpringApplication.run(FrontendAppMain.class, args);
-	}
+    }
 
     @RequestMapping("/chatAsync")
     public void chatAsync(@RequestParam(value="name", defaultValue="noname") final String name,
                           @RequestParam(value="message", defaultValue="nomessage") final String message) {
-        jmsTemplate.send(new ActiveMQQueue("chatQueue"), new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                return session.createTextMessage(name + "|" + message);
-            }
-        });
+        chatService.chatAsync(name, message);
     }
 
 	@RequestMapping("/chat")
 	public TextMessage[] chat(@RequestParam(value="name", defaultValue="noname") String name,
                               @RequestParam(value="message", defaultValue="nomessage") String message) {
-		RestTemplate template = new RestTemplate();
-
-		MessageAddResponse response = template.postForObject(ADD_MESSAGE_URL,
-				new MessageAddRequest(name, message),
-				MessageAddResponse.class);
-
-        if (response.isSuccess()) {
-            ResponseEntity<TextMessage[]> messages = template.getForEntity(GET_MESSAGES_URL, TextMessage[].class);
-            return messages.getBody();
-        } else {
-            throw new RuntimeException("Backend error");
-        }
+        return chatService.chatSync(name, message);
 	}
 
     @Bean

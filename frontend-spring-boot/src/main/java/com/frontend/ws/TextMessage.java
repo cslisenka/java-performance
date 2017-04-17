@@ -41,4 +41,14 @@ public class TextMessage {
     public long getTimestamp() {
         return timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "TextMessage{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                "}\n";
+    }
 }
