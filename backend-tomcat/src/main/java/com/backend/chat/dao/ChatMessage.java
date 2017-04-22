@@ -48,4 +48,14 @@ public class ChatMessage {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

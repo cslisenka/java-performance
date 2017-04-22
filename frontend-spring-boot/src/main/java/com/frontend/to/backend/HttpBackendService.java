@@ -1,8 +1,8 @@
-package com.frontend.service;
+package com.frontend.to.backend;
 
-import com.frontend.ws.MessageAddRequest;
-import com.frontend.ws.MessageAddResponse;
-import com.frontend.ws.TextMessage;
+import com.frontend.model.MessageAddRequest;
+import com.frontend.model.MessageAddResponse;
+import com.frontend.model.TextMessage;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 @Component
-public class ChatBackendService {
+public class HttpBackendService {
 
     public static final String ADD_MESSAGE_URL = "http://localhost:8988/addMessage";
     public static final String GET_MESSAGES_URL = "http://localhost:8988/getMessages";

@@ -1,0 +1,6 @@
+Exceptions
+Batch job (add spring quartz) - removing old chat messages/copy to archive table
+Asynchronous execution (thread->queue->thread) - how to make a single purepath?
++ JS client and agent
++ Node.JS layer and agent
+external resources - http call to external web-site/service

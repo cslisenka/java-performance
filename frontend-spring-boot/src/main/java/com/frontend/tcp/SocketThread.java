@@ -1,7 +1,7 @@
-package com.frontend.socket;
+package com.frontend.tcp;
 
-import com.frontend.service.ChatBackendService;
-import com.frontend.ws.TextMessage;
+import com.frontend.to.backend.HttpBackendService;
+import com.frontend.model.TextMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,9 +13,9 @@ public class SocketThread extends Thread {
     private final Socket socket;
     private final BufferedReader in;
     private final PrintWriter out;
-    private final ChatBackendService chatService;
+    private final HttpBackendService chatService;
 
-    public SocketThread(Socket socket, ChatBackendService chatService) throws IOException {
+    public SocketThread(Socket socket, HttpBackendService chatService) throws IOException {
         this.socket = socket;
         this.chatService = chatService;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

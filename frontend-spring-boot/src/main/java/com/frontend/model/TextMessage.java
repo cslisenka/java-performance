@@ -1,4 +1,4 @@
-package com.frontend.ws;
+package com.frontend.model;
 
 public class TextMessage {
 

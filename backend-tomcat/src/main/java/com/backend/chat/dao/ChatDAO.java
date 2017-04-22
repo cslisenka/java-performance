@@ -19,6 +19,11 @@ public class ChatDAO {
     private SessionFactory sessionFactory;
 
     public boolean addNewMessage(String name, String message) {
+        // Simulating errors
+        if ("error".equals(name)) {
+            throw new RuntimeException("backend error");
+        }
+
         int rows = jdbcTemplate.update("INSERT INTO chat (name, message, timestamp) VALUES (?, ?, NOW())", name, message);
         return rows > 0;
     }

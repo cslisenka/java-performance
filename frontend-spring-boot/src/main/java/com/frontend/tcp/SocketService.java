@@ -1,6 +1,6 @@
-package com.frontend.socket;
+package com.frontend.tcp;
 
-import com.frontend.service.ChatBackendService;
+import com.frontend.to.backend.HttpBackendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class SocketService extends Thread {
     private final ServerSocket serverSocket;
 
     @Autowired
-    private ChatBackendService chatService;
+    private HttpBackendService chatService;
 
     public SocketService() throws IOException {
         this.serverSocket = new ServerSocket(8990);
