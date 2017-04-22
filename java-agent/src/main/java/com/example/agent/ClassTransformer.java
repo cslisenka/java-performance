@@ -6,26 +6,32 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.ProtectionDomain;
 
 public class ClassTransformer implements ClassFileTransformer {
 
+    private final String instrumentedClassName;
+    private final String methodName;
+    private final String saveBytecodeTo;
+
+    public ClassTransformer(String instrumentedClassName, String methodName, String saveBytecodeTo) {
+        this.instrumentedClassName = instrumentedClassName;
+        this.methodName = methodName;
+        this.saveBytecodeTo = saveBytecodeTo;
+    }
+
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (className.endsWith("HttpBackendService")) {
+        if (className.replace("/", ".").equals(instrumentedClassName)) {
             System.out.println("Instrumenting " + className);
             try {
                 ClassPool classPool = ClassPool.getDefault();
-                CtClass clazz = classPool.get("com.frontend.to.backend.HttpBackendService"); // TODO get from input params
-                addTiming(clazz, "chatAsync");
+                CtClass clazz = classPool.get(instrumentedClassName);
+                addTiming(clazz, methodName);
 
                 byte[] byteCode = clazz.toBytecode();
                 clazz.detach();
-
-                store(byteCode, "C:/Work/" + clazz.getSimpleName() + ".class");
+                store(byteCode, saveBytecodeTo + "/" + clazz.getSimpleName() + ".class");
                 return byteCode;
             } catch (NotFoundException | CannotCompileException | IOException e) {
                 e.printStackTrace();

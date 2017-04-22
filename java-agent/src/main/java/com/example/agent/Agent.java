@@ -6,10 +6,12 @@ public class Agent {
 
     public static void premain(String args, Instrumentation instrumentation){
         System.out.println("I am java agent " + args);
-
-        ClassTransformer transformer = new ClassTransformer();
-
-        System.out.println("Transformer is created");
-        instrumentation.addTransformer(transformer);
+        String[] params = args.split("=");
+        if (params.length == 3) {
+            ClassTransformer transformer = new ClassTransformer(params[0], params[1], params[2]);
+            instrumentation.addTransformer(transformer);
+        } else {
+            System.out.println("Wrong input parameters!");
+        }
     }
 }
