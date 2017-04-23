@@ -1,8 +1,6 @@
-Dynotrace agent configuration
+Dynatrace agent configuration
 frontent-spring-boot:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=desktop-j2vhacg:9998
-example-agent:
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.HttpBackendService=chatAsync=save="C:/Work"
 
 backend-tomcat:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998
@@ -13,3 +11,9 @@ ActiveMQ
 C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq start
 C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq stop
 http://localhost:8161/admin/
+
+Zipkin:
+java -jar zipkin/zipkin-server-1.23.2-exec.jar
+
+example-agent:
+-javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.HttpBackendService=chatAsync=save="C:/Work"

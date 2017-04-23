@@ -17,13 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.soap.Text;
 import java.io.IOException;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @SpringBootApplication
 @EnableJms
 @Configuration
 public class FrontendAppMain {
+
+    private ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Autowired
     private HttpBackendService httpService;
@@ -51,6 +56,46 @@ public class FrontendAppMain {
                               HttpServletRequest request) {
         return httpService.chatSync(name, message);
 	}
+
+    @RequestMapping("/chatNewThread")
+    public TextMessage[] chatNewThread(@RequestParam(value="name", defaultValue="noname") String name,
+                              @RequestParam(value="message", defaultValue="nomessage") String message,
+                              HttpServletRequest request) throws InterruptedException {
+        AtomicReference<TextMessage[]> result = new AtomicReference<>();
+        // Dynotrace does not associate new thread with current pure path
+        Thread newThread = new Thread(() -> {
+            result.set(httpService.chatSync(name, message));
+        });
+
+        newThread.start();
+        newThread.join();
+        return result.get();
+    }
+
+    @RequestMapping("/chatThreadPool")
+    public TextMessage[] chatThreadPool(@RequestParam(value="name", defaultValue="noname") String name,
+                                       @RequestParam(value="message", defaultValue="nomessage") String message,
+                                       HttpServletRequest request) throws InterruptedException, ExecutionException {
+        Future<TextMessage[]> future = executorService.submit(() -> httpService.chatSync(name, message));
+        return future.get();
+    }
+
+    @RequestMapping("/chatThreadPoolAsync")
+    public String chatThreadPoolAsync(@RequestParam(value="name", defaultValue="noname") String name,
+                                        @RequestParam(value="message", defaultValue="nomessage") String message,
+                                        HttpServletRequest request) throws InterruptedException, ExecutionException {
+        executorService.submit(() -> {
+            try {
+                Thread.sleep(1000);
+                executorService.submit(() -> httpService.chatSync(name, message));
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return "request in processing";
+    }
 
     @RequestMapping("/chatTcp")
     public String chatTcp(@RequestParam(value="name", defaultValue="noname") String name,
