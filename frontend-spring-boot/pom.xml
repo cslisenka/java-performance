@@ -13,6 +13,11 @@
 
     <artifactId>frontend-spring-boot</artifactId>
 
+    <properties>
+        <brave.version>3.16.0</brave.version>
+        <zipkin-reporter.version>0.6.9</zipkin-reporter.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,10 +36,43 @@
             <artifactId>activemq-broker</artifactId>
         </dependency>
 
+        <!-- Dynatrace specific -->
         <dependency>
             <groupId>com.dynotrace</groupId>
             <artifactId>java-adk</artifactId>
             <version>6.5.5</version>
+        </dependency>
+
+        <!-- Zipkin specific -->
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-core-spring</artifactId>
+            <version>${brave.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter</groupId>
+            <artifactId>zipkin-sender-okhttp3</artifactId>
+            <version>${zipkin-reporter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter</groupId>
+            <artifactId>zipkin-sender-libthrift</artifactId>
+            <version>${zipkin-reporter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter</groupId>
+            <artifactId>zipkin-sender-kafka08</artifactId>
+            <version>${zipkin-reporter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-spring-web-servlet-interceptor</artifactId>
+            <version>${brave.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-spring-resttemplate-interceptors</artifactId>
+            <version>${brave.version}</version>
         </dependency>
     </dependencies>
 

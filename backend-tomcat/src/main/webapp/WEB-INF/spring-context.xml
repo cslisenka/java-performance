@@ -59,4 +59,14 @@
         <property name="destination" ref="messageDestination"/>
         <property name="messageListener" ref="chatMessageListener" />
     </bean>
+
+    <!-- Zipkin configuration -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <ref bean="instrumentingInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
+    <bean class="com.backend.chat.zipkin.ZipkinConfiguration"/>
 </beans>

@@ -24,6 +24,9 @@ public class HttpBackendService {
     @Autowired
     private JmsTemplate jmsTemplate;
 
+    @Autowired
+    private RestTemplate template;
+
     public void chatAsync(final String name, final String message) {
         jmsTemplate.send(new ActiveMQQueue("chatQueue"), new MessageCreator() {
             @Override
@@ -34,7 +37,7 @@ public class HttpBackendService {
     }
 
     public TextMessage[] chatSync(final String name, final String message) {
-        RestTemplate template = new RestTemplate();
+//        RestTemplate template = new RestTemplate();
 
         MessageAddResponse response = template.postForObject(ADD_MESSAGE_URL,
                 new MessageAddRequest(name, message),
