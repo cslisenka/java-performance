@@ -37,8 +37,6 @@ public class HttpBackendService {
     }
 
     public TextMessage[] chatSync(final String name, final String message) {
-//        RestTemplate template = new RestTemplate();
-
         MessageAddResponse response = template.postForObject(ADD_MESSAGE_URL,
                 new MessageAddRequest(name, message),
                 MessageAddResponse.class);

@@ -2,6 +2,8 @@ package com.example.agent;
 
 import java.lang.instrument.Instrumentation;
 
+// TODO manipulate methods of class String, or Thread! Add this to the example
+// TODO add custom classloader
 public class Agent {
 
     public static void premain(String args, Instrumentation instrumentation){

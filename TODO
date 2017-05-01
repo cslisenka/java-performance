@@ -1,3 +1,2 @@
-Batch job (add spring quartz) - removing old chat messages/copy to archive table
-Asynchronous execution (thread->queue->thread) - how to make a single purepath?
 + Node.JS layer and agent
++ browser agent example

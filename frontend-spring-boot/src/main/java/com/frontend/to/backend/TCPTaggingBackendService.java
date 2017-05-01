@@ -10,14 +10,12 @@ import java.net.Socket;
 @Component
 public class TCPTaggingBackendService {
 
-    // TODO logger
-
     public String chatSync(final String name, final String message) throws IOException {
         try {
             DynaTraceADKFactory.initialize();
             Tagging tagging = DynaTraceADKFactory.createTagging();
             String requestTag = tagging.getTagAsString();
-            tagging.linkClientPurePath(true, requestTag);
+            tagging.linkClientPurePath(false, requestTag);
 
             try (Socket socket = new Socket("localhost", 8991)) {
                 send(name + "|" + message + "|" + requestTag, socket);

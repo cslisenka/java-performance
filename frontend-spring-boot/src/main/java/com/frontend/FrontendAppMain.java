@@ -97,6 +97,14 @@ public class FrontendAppMain {
         return "request in processing";
     }
 
+    @RequestMapping("/chatCompletableFuture")
+    public TextMessage[] chatCompletableFuture(@RequestParam(value="name", defaultValue="noname") String name,
+                                        @RequestParam(value="message", defaultValue="nomessage") String message,
+                                        HttpServletRequest request) throws InterruptedException, ExecutionException {
+        CompletableFuture<TextMessage[]> future = CompletableFuture.supplyAsync(() -> httpService.chatSync(name, message));
+        return future.get();
+    }
+
     @RequestMapping("/chatTcp")
     public String chatTcp(@RequestParam(value="name", defaultValue="noname") String name,
                           @RequestParam(value="message", defaultValue="nomessage") String message,
@@ -104,6 +112,7 @@ public class FrontendAppMain {
         return tcpService.chatSync(name, message);
     }
 
+    // Custom probe
     @RequestMapping("/chatTcpTagging")
     public String chatTcpTagging(@RequestParam(value="name", defaultValue="noname") String name,
                           @RequestParam(value="message", defaultValue="nomessage") String message,

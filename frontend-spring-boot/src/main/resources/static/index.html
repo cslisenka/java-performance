@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+
+    <script>
+    $(function() {
+        $('#btnCallChat').click(function() {
+            $.ajax({
+                type: 'GET',
+                url: '/chat?name=jsclient&message=jsclientmessage',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(response) {
+                    $('#responseArea').html(JSON.stringify(response));
+                },
+                error: function(error) {
+                    alert(error);
+                    //console.log(error);
+                }
+            });
+        });
+    });
+    </script>
+
+    <input type="button" id="btnCallChat" name="btnCallChat" value="Chat!"/>
+
+    <h2>Response</h2>
+    <div id="responseArea">
+    </div>
+</body>
+</html>
