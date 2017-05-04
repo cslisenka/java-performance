@@ -10,12 +10,10 @@
     <script>
     $(function() {
         $('#btnCallChat').click(function() {
-            console.log("btnCallChat click");
-
             var name = $('#chatName')[0].value;
             var message = $('#chatMessage')[0].value;
 
-            console.log('GET /chat?name=' + name + '&message=' + message);
+            $('#requestArea').html('GET /chat?name=' + name + '&message=' + message);
 
             $.ajax({
                 type: 'GET',
@@ -26,7 +24,28 @@
                     $('#responseArea').html(JSON.stringify(response));
                 },
                 error: function(error) {
-                    alert('Error: ' + error);
+                    $('#responseArea').html(JSON.stringify(error));
+                    console.log(error);
+                }
+            });
+        });
+
+        $('#btnCallChatAsync').click(function() {
+            var name = $('#chatAsyncName')[0].value;
+            var message = $('#chatAsyncMessage')[0].value;
+
+            $('#requestArea').html('GET /chatAsync?name=' + name + '&message=' + message);
+
+            $.ajax({
+                type: 'GET',
+                url: '/chatAsync?name=' + name + '&message=' + message,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(response) {
+                    $('#responseArea').html(JSON.stringify(response));
+                },
+                error: function(error) {
+                    $('#responseArea').html(JSON.stringify(error));
                     console.log(error);
                 }
             });
@@ -51,12 +70,14 @@
         </tr>
         <tr>
             <td>
-                HTTP web-service calls
+                HTTP web-service call<br>
+                Browser -> Frontend -> Backend -> DB
             </td>
             <td>
                 Name: <input type="text" id="chatName" value="js-client"/><br>
                 Message: <input type="text" id="chatMessage" value="Hello!"/><br>
-                <input type="button" id="btnCallChat" name="btnCallChat" value="GET http://localhost:8988/chat"/>
+                <!-- Change get to post -->
+                <input type="button" id="btnCallChat" value="GET http://localhost:8988/chat"/>
             </td>
             <td>
                 Sync calls backend (tomcat)<br>
@@ -64,11 +85,30 @@
                 Returns result from /getMessages
             </td>
         </tr>
+        <tr>
+            <td>
+                HTTP + JMS<br>
+                Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB
+            </td>
+            <td>
+                Name: <input type="text" id="chatAsyncName" value="js-client"/><br>
+                Message: <input type="text" id="chatAsyncMessage" value="Hello-async!"/><br>
+                <input type="button" id="btnCallChatAsync" value="GET http://localhost:8988/chatAsync"/>
+            </td>
+            <td>
+                Submits message to ActiveMQ chatQueue <br>
+                Backend gets message and adds new record to DB<br>
+                Returns immediately
+            </td>
+        </tr>
     </table>
 
+    <h2>Request</h2>
+    <div id="requestArea" style="width: 100%; background-color: #E0E0E0; min-height: 30px;">
+    </div>
 
     <h2>Response</h2>
-    <div id="responseArea" style="width: 100%; background-color: #E0E0E0; min-height: 300px;">
+    <div id="responseArea" style="width: 100%; background-color: #E0E0E0; min-height: 200px;">
     </div>
 </body>
 </html>

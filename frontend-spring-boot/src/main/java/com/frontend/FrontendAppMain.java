@@ -44,10 +44,11 @@ public class FrontendAppMain {
     }
 
     @RequestMapping("/chatAsync")
-    public void chatAsync(@RequestParam(value="name", defaultValue="noname") final String name,
+    public String chatAsync(@RequestParam(value="name", defaultValue="noname") final String name,
                           @RequestParam(value="message", defaultValue="nomessage") final String message,
                           HttpServletRequest request) {
         httpService.chatAsync(name, message);
+        return "Async request in processing";
     }
 
 	@RequestMapping("/chat")
