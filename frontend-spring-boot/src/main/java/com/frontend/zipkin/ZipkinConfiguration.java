@@ -1,6 +1,7 @@
 package com.frontend.zipkin;
 
 import com.github.kristofa.brave.Brave;
+import com.github.kristofa.brave.LoggingReporter;
 import com.github.kristofa.brave.http.DefaultSpanNameProvider;
 import com.github.kristofa.brave.http.SpanNameProvider;
 import com.github.kristofa.brave.spring.BraveClientHttpRequestInterceptor;
@@ -33,9 +34,9 @@ public class ZipkinConfiguration extends WebMvcConfigurerAdapter {
 
     /** Configuration for how to buffer spans into messages for Zipkin */
     @Bean Reporter<Span> reporter() {
-//        return new LoggingReporter();
+        return new LoggingReporter();
         // uncomment to actually send to zipkin
-        return AsyncReporter.builder(sender()).build();
+//        return AsyncReporter.builder(sender()).build();
     }
 
     @Bean Brave brave() {

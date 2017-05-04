@@ -1,4 +1,4 @@
-package example;
+package com.example.agent.logging;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -14,5 +14,3 @@ public class ClassLoadingLogger implements ClassFileTransformer {
         return classfileBuffer;
     }
 }
-
-

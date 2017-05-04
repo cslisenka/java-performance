@@ -46,28 +46,8 @@
                     </descriptorRefs>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>com.example.agent.Agent</Premain-Class>
-                            <Agent-Class>com.example.agent.Agent</Agent-Class>
-                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
-                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
-                            <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                        </manifest>
-                        <manifestEntries>
-                            <Premain-Class>com.example.agent.Agent</Premain-Class>
-                            <Agent-Class>com.example.agent.Agent</Agent-Class>
+                            <!--Premain-Class>com.example.agent.logging.LoggingAgent</Premain-Class-->
+                            <Premain-Class>com.example.agent.instrumenting.InstrumentingAgent</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>

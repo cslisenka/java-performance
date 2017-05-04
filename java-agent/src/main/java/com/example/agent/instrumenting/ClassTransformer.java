@@ -1,4 +1,4 @@
-package com.example.agent;
+package com.example.agent.instrumenting;
 
 import javassist.*;
 
@@ -23,7 +23,7 @@ public class ClassTransformer implements ClassFileTransformer {
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (className.replace("/", ".").equals(instrumentedClassName)) {
-            System.out.println("Instrumenting " + className);
+            System.out.println("Agent: Instrumenting " + className);
             try {
                 ClassPool classPool = ClassPool.getDefault();
                 CtClass clazz = classPool.get(instrumentedClassName);
@@ -32,9 +32,11 @@ public class ClassTransformer implements ClassFileTransformer {
                 byte[] byteCode = clazz.toBytecode();
                 clazz.detach();
                 store(byteCode, saveBytecodeTo + "/" + clazz.getSimpleName() + ".class");
+
+                System.out.println("Agent: Instrumented successfully " + className);
                 return byteCode;
-            } catch (NotFoundException | CannotCompileException | IOException e) {
-                e.printStackTrace();
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
         }
 
@@ -63,7 +65,7 @@ public class ClassTransformer implements ClassFileTransformer {
         body.append(changedName + "($$);"); // Call existed method
 
         //  Print timing information
-        body.append("System.out.println(\"" + methodName + " took \" + (System.currentTimeMillis()-start) + \" ms.\");");
+        body.append("System.out.println(\"Agent: " + methodName + " took \" + (System.currentTimeMillis()-start) + \" ms.\");");
 
         if (!"void".equals(type)) {
             body.append("return result;"); //  Return captured value (if not void)
@@ -79,5 +81,6 @@ public class ClassTransformer implements ClassFileTransformer {
         FileOutputStream os = new FileOutputStream(path);
         os.write(byteCode);
         os.close();
+        System.out.println("Saved byte-code to " + path);
     }
 }

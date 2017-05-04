@@ -1,4 +1,7 @@
-Dynatrace agent configuration
+# Java agent example
+-javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.HttpBackendService=chatSync="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
+
+# Dynatrace agent configuration
 frontent-spring-boot:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=desktop-j2vhacg:9998
 
@@ -8,18 +11,16 @@ backend-tomcat:
 ActiveMQ
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagent.dll"=name=ActiveMQ_TestPOC,server=desktop-j2vhacg:9998
 
+# Active MQ
 C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq start
 C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq stop
 http://localhost:8161/admin/
 
-Zipkin:
+# Zipkin
 java -jar zipkin/zipkin-server-1.23.2-exec.jar
 
-example-agent:
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.HttpBackendService=chatAsync=save="C:/Work"
-
-YourKit
+# YourKit
 -agentpath:"C:\Program Files\YourKit Java Profiler 2017.02-b57\bin\win64\yjpagent.dll"
 
-JProfiler
+# JProfiler
 -agentpath:C:\PROGRA~1\JPROFI~1\bin\WINDOW~1\jprofilerti.dll=port=8849,nowait,id=104,config=C:\Users\Kanstantsin\.jprofiler10\config.xml
