@@ -51,11 +51,11 @@ public class ChatMessage {
 
     @Override
     public String toString() {
-        return "ChatMessage{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", message='" + message + '\'' +
                 ", timestamp=" + timestamp +
-                '}';
+                "}";
     }
 }

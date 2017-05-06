@@ -1,120 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Frontend (Spring boot)</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Frontend (Spring boot) application</title>
+    <link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-    <script src="http://localhost:8989/js/jquery-3.2.1.min.js"></script>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Frontend (Spring boot)</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://localhost:8988" target="new">Backend #1 (Tomcat)</a></li>
+                    <li><a href="http://localhost:8987" target="new">Backend #2 (Tomcat)</a></li>
+                    <li><a href="http://localhost:8161/admin/" target="new">ActiveMQ</a></li>
+                    <li><a href="https://localhost:9911/index.jsp#transaction-flow" target="new">Dynatrace</a></li>
+                    <li><a href="http://localhost:9411/" target="new">Zipkin</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <br><br><br>
+
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-6">
+                <h2>HTTP web-service call</h2>
+                <p>Browser -> Frontend -> Backend -> DB</p>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chat" name="HTTP" role="button">Do web-service call &raquo;</a></p>
+            </div>
+            <div class="col-md-6">
+                <h2>JMS</h2>
+                <p>Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB</p>
+                <p>
+                    Submits message to ActiveMQ chatQueue<br>
+                    Backend gets message and adds new record to DB<br>
+                    Returns immediately
+                </p>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatAsync" name="JMS" role="button">Submit JMS message &raquo;</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>TCP/IP custom protocol</h2>
+                <p>Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB</p>
+                <p>
+                    Frontend sends data to Backend via custom TCP-based protocol
+                </p>
+                <p>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatTcp" name="TCP" role="button">Send TCP message &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatTcpTagging" name="TCP with tagging" role="button">Send and tag TCP message &raquo;</a>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h2>Async invocations</h2>
+                <p>
+                    Async invocations + multithreading (new thread, executor service, completable future)<br>
+                    Browser -> Frontend -> async invocation -> Backend -> DB
+                </p>
+                <p>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatNewThread" name="New thread" role="button">New thread &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPool" name="Thread pool" role="button">ExecutorService &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPoolAsync" name="Async invocation" role="button">Async invocation &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatCompletableFuture" name="Completable future" role="button">Completable future &raquo;</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="callHttpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">HTTP call to http://localhost:8989/chat?name=bbb&message=bbb</h4>
+                </div>
+                <div class="modal-body">
+                    <b>Request</b><br>
+                    <pre id="requestArea">GET http://localhost:8989/chat?name=aaa&message=bbb</pre>
+
+                    <b>Response</b><br>
+                    <div class="progress" id="requestInProgress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        </div>
+                    </div>
+                    <code id="responseArea">
+                    </code>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script>
-        var frontendHost = 'http://localhost:8989';
-        var callFrontend = function(url) {
-            var name = $('#chatName')[0].value;
-            var message = $('#chatMessage')[0].value;
+        var counter = 0;
 
-            $('#requestArea').html('GET ' + frontendHost + url + '?name=' + name + '&message=' + message);
-            $('#responseArea').html("request in progress...");
+        $('#callHttpModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var url = button[0].attributes['url'].value;
+            var name = button[0].attributes['name'].value;
+            counter++;
+            var message = "Hello, " + name + " " + counter;
+            var request = 'name=' + name + '&message=' + message;
+            var fullUrl = 'http://localhost:8989' + url + '?' + request;
+            var modal = $(this)
 
-            $.ajax({
+            modal.find('.modal-title').text("GET " + fullUrl);
+
+            $('#requestArea').html(request);
+            $('#responseArea').html("");
+
+            $('#responseArea').hide();
+            $('#requestInProgress').show();
+
+             $.ajax({
                 type: 'GET',
-                url: frontendHost + url + '?name=' + name + '&message=' + message,
+                url: fullUrl,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(response) {
                     $('#responseArea').html(JSON.stringify(response));
+                    $('#requestInProgress').hide();
+                    $('#responseArea').show();
                 },
                 error: function(error) {
                     $('#responseArea').html(JSON.stringify(error));
-                    console.log(error);
+                    $('#requestInProgress').hide();
+                    $('#responseArea').show();
                 }
             });
-        }
+        })
     </script>
-
-    <h1>Frontend (Spring boot)</h1>
-
-    <h2>Request attributes</h2>
-    Name: <input type="text" id="chatName" value="js-client"/><br>
-    Message: <input type="text" id="chatMessage" value="Hello-async!"/><br>
-
-    <h2>Request examples</h2>
-    <table border="1" width="100%">
-        <tr>
-            <td>
-                <h3>Demo case</h3>
-            </td>
-            <td>
-                <h3>Web-service and request</h3>
-            </td>
-            <td>
-                <h3>Description</h3>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                HTTP web-service call<br>
-                Browser -> Frontend -> Backend -> DB
-            </td>
-            <td>
-                <!-- TODO Change get to post -->
-                <input type="button" onClick="callFrontend('/chat')" value="GET /chat"/>
-            </td>
-            <td>
-                Sync calls backend (tomcat)<br>
-                GET /addMessage, then GET /getMessages<br>
-                Returns result from /getMessages
-            </td>
-        </tr>
-        <tr>
-            <td>
-                HTTP + JMS + DB<br>
-                Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB
-            </td>
-            <td>
-                <input type="button" onClick="callFrontend('/chatAsync')" value="GET /chatAsync"/>
-            </td>
-            <td>
-                Submits message to ActiveMQ chatQueue <br>
-                Backend gets message and adds new record to DB<br>
-                Returns immediately
-            </td>
-        </tr>
-        <tr>
-            <td>
-                HTTP + TCP + DB<br>
-                Browser -> Frontend -> TCP -> Backend -> DB
-            </td>
-            <td>
-                <input type="button" onClick="callFrontend('/chatTcp')" value="GET /chatTcp"/>
-                <input type="button" onClick="callFrontend('/chatTcpTagging')" value="GET /chatTcpTagging"/>
-            </td>
-            <td>
-                Frontend sends data to Backend via custom TCP-based protocol
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Async invocations + multithreading (new thread, executor service, completable future)<br>
-                Browser -> Frontend -> async invocation -> Backend -> DB
-            </td>
-            <td>
-                <input type="button" onClick="callFrontend('/chatNewThread')" value="GET /chatNewThread"/>
-                <input type="button" onClick="callFrontend('/chatThreadPool')" value="GET /chatThreadPool"/>
-                <input type="button" onClick="callFrontend('/chatThreadPoolAsync')" value="GET /chatThreadPoolAsync"/>
-                <input type="button" onClick="callFrontend('/chatCompletableFuture')" value="GET /chatCompletableFuture"/>
-            </td>
-            <td>
-                Frontend does HTTP call to backend asynchronously
-            </td>
-        </tr>
-    </table>
-
-    <h2>Request</h2>
-    <div id="requestArea" style="width: 100%; background-color: #E0E0E0; min-height: 30px;">
-    </div>
-
-    <h2>Response</h2>
-    <div id="responseArea" style="width: 100%; background-color: #E0E0E0; min-height: 200px;">
-    </div>
 </body>
 </html>
