@@ -6,6 +6,7 @@ import com.frontend.model.TextMessage;
 import com.frontend.to.backend.TCPTaggingBackendService;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,7 @@ public class FrontendAppMain {
     private HttpBackendService httpService;
 
     @Autowired
+    @Qualifier("tcpService")
     private TCPBackendService tcpService;
 
     @Autowired

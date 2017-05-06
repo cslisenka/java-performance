@@ -1,5 +1,6 @@
 package com.frontend.zipkin;
 
+import com.frontend.to.backend.ribbon.RibbonConfiguration;
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.LoggingReporter;
 import com.github.kristofa.brave.http.DefaultSpanNameProvider;
@@ -7,6 +8,8 @@ import com.github.kristofa.brave.http.SpanNameProvider;
 import com.github.kristofa.brave.spring.BraveClientHttpRequestInterceptor;
 import com.github.kristofa.brave.spring.ServletHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -34,9 +37,9 @@ public class ZipkinConfiguration extends WebMvcConfigurerAdapter {
 
     /** Configuration for how to buffer spans into messages for Zipkin */
     @Bean Reporter<Span> reporter() {
-        return new LoggingReporter();
+//        return new LoggingReporter();
         // uncomment to actually send to zipkin
-//        return AsyncReporter.builder(sender()).build();
+        return AsyncReporter.builder(sender()).build();
     }
 
     @Bean Brave brave() {
@@ -55,6 +58,7 @@ public class ZipkinConfiguration extends WebMvcConfigurerAdapter {
     private BraveClientHttpRequestInterceptor clientInterceptor;
 
     // All components must use modified RestTemplate
+    @LoadBalanced
     @Bean RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>(restTemplate.getInterceptors());

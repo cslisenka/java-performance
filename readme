@@ -5,8 +5,12 @@
 frontent-spring-boot:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=desktop-j2vhacg:9998
 
-backend-tomcat:
--agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998
+backend-tomcat 1:
+-agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998 -Dtcp.port=8985
+
+backend-tomcat 2:
+-agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998 -Dtcp.port=8984
+
 
 ActiveMQ
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagent.dll"=name=ActiveMQ_TestPOC,server=desktop-j2vhacg:9998
@@ -18,6 +22,7 @@ http://localhost:8161/admin/
 
 # Zipkin
 java -jar zipkin/zipkin-server-1.23.2-exec.jar
+http://localhost:9411/
 
 # YourKit
 -agentpath:"C:\Program Files\YourKit Java Profiler 2017.02-b57\bin\win64\yjpagent.dll"

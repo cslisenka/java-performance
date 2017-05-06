@@ -6,18 +6,18 @@
 </head>
 <body>
     <script src="http://localhost:8989/js/jquery-3.2.1.min.js"></script>
-
     <script>
-    $(function() {
-        $('#btnCallChat').click(function() {
+        var frontendHost = 'http://localhost:8989';
+        var callFrontend = function(url) {
             var name = $('#chatName')[0].value;
             var message = $('#chatMessage')[0].value;
 
-            $('#requestArea').html('GET /chat?name=' + name + '&message=' + message);
+            $('#requestArea').html('GET ' + frontendHost + url + '?name=' + name + '&message=' + message);
+            $('#responseArea').html("request in progress...");
 
             $.ajax({
                 type: 'GET',
-                url: '/chat?name=' + name + '&message=' + message,
+                url: frontendHost + url + '?name=' + name + '&message=' + message,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(response) {
@@ -28,35 +28,17 @@
                     console.log(error);
                 }
             });
-        });
-
-        $('#btnCallChatAsync').click(function() {
-            var name = $('#chatAsyncName')[0].value;
-            var message = $('#chatAsyncMessage')[0].value;
-
-            $('#requestArea').html('GET /chatAsync?name=' + name + '&message=' + message);
-
-            $.ajax({
-                type: 'GET',
-                url: '/chatAsync?name=' + name + '&message=' + message,
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                success: function(response) {
-                    $('#responseArea').html(JSON.stringify(response));
-                },
-                error: function(error) {
-                    $('#responseArea').html(JSON.stringify(error));
-                    console.log(error);
-                }
-            });
-        });
-    });
+        }
     </script>
 
     <h1>Frontend (Spring boot)</h1>
 
-    <h2>Call back-end web-services</h2>
-    <table border="0" width="100%">
+    <h2>Request attributes</h2>
+    Name: <input type="text" id="chatName" value="js-client"/><br>
+    Message: <input type="text" id="chatMessage" value="Hello-async!"/><br>
+
+    <h2>Request examples</h2>
+    <table border="1" width="100%">
         <tr>
             <td>
                 <h3>Demo case</h3>
@@ -74,10 +56,8 @@
                 Browser -> Frontend -> Backend -> DB
             </td>
             <td>
-                Name: <input type="text" id="chatName" value="js-client"/><br>
-                Message: <input type="text" id="chatMessage" value="Hello!"/><br>
-                <!-- Change get to post -->
-                <input type="button" id="btnCallChat" value="GET http://localhost:8988/chat"/>
+                <!-- TODO Change get to post -->
+                <input type="button" onClick="callFrontend('/chat')" value="GET /chat"/>
             </td>
             <td>
                 Sync calls backend (tomcat)<br>
@@ -87,18 +67,44 @@
         </tr>
         <tr>
             <td>
-                HTTP + JMS<br>
+                HTTP + JMS + DB<br>
                 Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB
             </td>
             <td>
-                Name: <input type="text" id="chatAsyncName" value="js-client"/><br>
-                Message: <input type="text" id="chatAsyncMessage" value="Hello-async!"/><br>
-                <input type="button" id="btnCallChatAsync" value="GET http://localhost:8988/chatAsync"/>
+                <input type="button" onClick="callFrontend('/chatAsync')" value="GET /chatAsync"/>
             </td>
             <td>
                 Submits message to ActiveMQ chatQueue <br>
                 Backend gets message and adds new record to DB<br>
                 Returns immediately
+            </td>
+        </tr>
+        <tr>
+            <td>
+                HTTP + TCP + DB<br>
+                Browser -> Frontend -> TCP -> Backend -> DB
+            </td>
+            <td>
+                <input type="button" onClick="callFrontend('/chatTcp')" value="GET /chatTcp"/>
+                <input type="button" onClick="callFrontend('/chatTcpTagging')" value="GET /chatTcpTagging"/>
+            </td>
+            <td>
+                Frontend sends data to Backend via custom TCP-based protocol
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Async invocations + multithreading (new thread, executor service, completable future)<br>
+                Browser -> Frontend -> async invocation -> Backend -> DB
+            </td>
+            <td>
+                <input type="button" onClick="callFrontend('/chatNewThread')" value="GET /chatNewThread"/>
+                <input type="button" onClick="callFrontend('/chatThreadPool')" value="GET /chatThreadPool"/>
+                <input type="button" onClick="callFrontend('/chatThreadPoolAsync')" value="GET /chatThreadPoolAsync"/>
+                <input type="button" onClick="callFrontend('/chatCompletableFuture')" value="GET /chatCompletableFuture"/>
+            </td>
+            <td>
+                Frontend does HTTP call to backend asynchronously
             </td>
         </tr>
     </table>

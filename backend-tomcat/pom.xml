@@ -113,6 +113,24 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>server1</id>
+            <properties>
+                <tomcat.port>8988</tomcat.port>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>server2</id>
+            <properties>
+                <tomcat.port>8987</tomcat.port>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <finalName>backend-tomcat</finalName>
 
@@ -122,7 +140,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <port>8988</port>
+                    <port>${tomcat.port}</port>
                     <path>/</path>
                 </configuration>
             </plugin>

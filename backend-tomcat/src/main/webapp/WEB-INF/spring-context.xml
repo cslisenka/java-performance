@@ -14,6 +14,7 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="com.backend" />
+    <context:property-placeholder />
     <mvc:annotation-driven />
     <tx:annotation-driven/>
 
@@ -58,6 +59,10 @@
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="destination" ref="messageDestination"/>
         <property name="messageListener" ref="chatMessageListener" />
+    </bean>
+
+    <bean id="serverSocket" class="com.backend.chat.tcp.SocketService">
+        <constructor-arg value="${tcp.port:8986}"/>
     </bean>
 
     <!-- Zipkin configuration -->

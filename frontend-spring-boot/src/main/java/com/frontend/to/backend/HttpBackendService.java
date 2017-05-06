@@ -3,8 +3,10 @@ package com.frontend.to.backend;
 import com.frontend.model.MessageAddRequest;
 import com.frontend.model.MessageAddResponse;
 import com.frontend.model.TextMessage;
+import com.frontend.to.backend.ribbon.RibbonConfiguration;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -16,10 +18,14 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 @Component
+@RibbonClient(name = "ribbon-backend", configuration = RibbonConfiguration.class)
 public class HttpBackendService {
 
-    public static final String ADD_MESSAGE_URL = "http://localhost:8988/addMessage";
-    public static final String GET_MESSAGES_URL = "http://localhost:8988/getMessages";
+//    public static final String ADD_MESSAGE_URL = "http://localhost:8988/addMessage";
+//    public static final String GET_MESSAGES_URL = "http://localhost:8988/getMessages";
+
+    public static final String ADD_MESSAGE_URL = "http://ribbon-backend/addMessage";
+    public static final String GET_MESSAGES_URL = "http://ribbon-backend/getMessages";
 
     @Autowired
     private JmsTemplate jmsTemplate;

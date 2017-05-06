@@ -8,8 +8,9 @@ import java.io.*;
 import java.net.Socket;
 
 @Component
-public class TCPTaggingBackendService {
+public class TCPTaggingBackendService extends TCPBackendService {
 
+    @Override
     public String chatSync(final String name, final String message) throws IOException {
         try {
             DynaTraceADKFactory.initialize();
@@ -17,23 +18,12 @@ public class TCPTaggingBackendService {
             String requestTag = tagging.getTagAsString();
             tagging.linkClientPurePath(false, requestTag);
 
-            try (Socket socket = new Socket("localhost", 8991)) {
+            try (Socket socket = connect()) {
                 send(name + "|" + message + "|" + requestTag, socket);
                 return receive(socket);
             }
         } finally {
             DynaTraceADKFactory.uninitialize();
         }
-    }
-
-    private void send(String message, Socket socket) throws IOException {
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-        writer.println(message);
-        writer.flush();
-    }
-
-    private String receive(Socket socket) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        return reader.readLine();
     }
 }

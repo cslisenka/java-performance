@@ -2,13 +2,11 @@ package com.backend.chat.tcp;
 
 import com.backend.chat.dao.ChatDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-@Component
 public class SocketService extends Thread {
 
     private final ServerSocket serverSocket;
@@ -16,8 +14,9 @@ public class SocketService extends Thread {
     @Autowired
     private ChatDAO chatDAO;
 
-    public SocketService() throws IOException {
-        this.serverSocket = new ServerSocket(8991);
+    public SocketService(int port) throws IOException {
+        System.out.println("Opening TCP server socket at port " + port);
+        this.serverSocket = new ServerSocket(port);
         setName("newConnectionThread");
         start();
     }

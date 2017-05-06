@@ -15,9 +15,12 @@ public class ChatWebService {
     @Autowired
     private ChatDAO dao;
 
+
+
     @ResponseBody
     @RequestMapping(value = "/addMessage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public AddMessageResponse addMessage(@RequestBody AddMessageRequest newMessage, HttpServletRequest request) {
+        System.out.println("addMessage"); // TODO configure logging
         boolean result = dao.addNewMessage(newMessage.getName(), newMessage.getMessage());
         return new AddMessageResponse(result);
     }
@@ -25,6 +28,7 @@ public class ChatWebService {
     @ResponseBody
     @RequestMapping(value = "/getMessages", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ChatMessage> getAllMessages(HttpServletRequest request) {
+        System.out.println("getAllMessages"); // TODO configure logging
         return dao.getAllMessages();
     }
 }
