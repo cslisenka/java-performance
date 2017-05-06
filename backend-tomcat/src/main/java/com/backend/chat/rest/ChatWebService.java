@@ -15,8 +15,6 @@ public class ChatWebService {
     @Autowired
     private ChatDAO dao;
 
-
-
     @ResponseBody
     @RequestMapping(value = "/addMessage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public AddMessageResponse addMessage(@RequestBody AddMessageRequest newMessage, HttpServletRequest request) {
