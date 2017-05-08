@@ -1,4 +1,4 @@
-package com.frontend.model;
+package com.frontend.dto;
 
 public class MessageAddRequest {
 

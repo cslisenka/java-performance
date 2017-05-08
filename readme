@@ -1,5 +1,5 @@
 # Java agent example
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.HttpBackendService=chatSync="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
+-javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.Backend=chatSync="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
 
 # Dynatrace agent configuration
 frontent-spring-boot:

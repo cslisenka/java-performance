@@ -1,15 +1,12 @@
 package com.frontend.zipkin;
 
-import com.frontend.to.backend.ribbon.RibbonConfiguration;
 import com.github.kristofa.brave.Brave;
-import com.github.kristofa.brave.LoggingReporter;
 import com.github.kristofa.brave.http.DefaultSpanNameProvider;
 import com.github.kristofa.brave.http.SpanNameProvider;
 import com.github.kristofa.brave.spring.BraveClientHttpRequestInterceptor;
 import com.github.kristofa.brave.spring.ServletHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -31,35 +28,40 @@ import java.util.List;
 @Import({BraveClientHttpRequestInterceptor.class, ServletHandlerInterceptor.class})
 public class ZipkinConfiguration extends WebMvcConfigurerAdapter {
 
-    @Bean Sender sender() {
-        return OkHttpSender.create("http://localhost:9411/api/v1/spans");
-    }
-
-    /** Configuration for how to buffer spans into messages for Zipkin */
-    @Bean Reporter<Span> reporter() {
-//        return new LoggingReporter();
-        // uncomment to actually send to zipkin
-        return AsyncReporter.builder(sender()).build();
-    }
-
-    @Bean Brave brave() {
-        return new Brave.Builder("fromtend-spring-boot").reporter(reporter()).build();
-    }
-
-    // decide how to name spans. By default they are named the same as the http method.
-    @Bean SpanNameProvider spanNameProvider() {
-        return new DefaultSpanNameProvider();
-    }
-
     @Autowired
     private ServletHandlerInterceptor serverInterceptor;
 
     @Autowired
     private BraveClientHttpRequestInterceptor clientInterceptor;
 
-    // All components must use modified RestTemplate
+    @Bean
+    Sender sender() {
+        return OkHttpSender.create("http://localhost:9411/api/v1/spans");
+    }
+
+    @Bean
+    Reporter<Span> reporter() {
+//        return new LoggingReporter(); // logs spans to console
+        return AsyncReporter.builder(sender()).build(); // sends spans to zipkin
+    }
+
+    @Bean
+    Brave brave() {
+        return new Brave.Builder("fromtend-spring-boot").reporter(reporter()).build();
+    }
+
+    /**
+     * Decide how to name spans. By default they are named the same as the http method.
+     */
+    @Bean
+    SpanNameProvider spanNameProvider() {
+        return new DefaultSpanNameProvider();
+    }
+
+    // All components must use RestTemplate with Zipkin interceptors
     @LoadBalanced
-    @Bean RestTemplate restTemplate() {
+    @Bean
+    RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>(restTemplate.getInterceptors());
         interceptors.add(clientInterceptor);

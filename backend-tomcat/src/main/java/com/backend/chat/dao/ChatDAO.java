@@ -31,6 +31,6 @@ public class ChatDAO {
     @Transactional(readOnly = true)
     public List<ChatMessage> getAllMessages() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ChatMessage msg order by msg.timestamp DESC").setMaxResults(10).list();
+        return session.createQuery("from ChatMessage msg order by msg.timestamp DESC").setMaxResults(5).list();
     }
 }

@@ -1,11 +1,11 @@
-package com.frontend.model;
+package com.frontend.dto;
 
 public class TextMessage {
 
     private long id;
     private String name;
     private String message;
-    private long timestamp;
+    private java.util.Date timestamp;
 
     public TextMessage() {
     }
@@ -23,7 +23,7 @@ public class TextMessage {
     }
 
     public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp = new java.util.Date(timestamp);
     }
 
     public long getId() {
@@ -38,17 +38,7 @@ public class TextMessage {
         return message;
     }
 
-    public long getTimestamp() {
+    public java.util.Date getTimestamp() {
         return timestamp;
-    }
-
-    @Override
-    public String toString() {
-        return "TextMessage{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", message='" + message + '\'' +
-                ", timestamp=" + timestamp +
-                "}\n";
     }
 }

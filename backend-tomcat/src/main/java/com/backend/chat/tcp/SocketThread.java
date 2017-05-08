@@ -3,6 +3,8 @@ package com.backend.chat.tcp;
 import com.backend.chat.dao.ChatDAO;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class SocketThread extends Thread {
+
+    private static final Logger log = LoggerFactory.getLogger(SocketService.class);
 
     private final Socket socket;
     private final BufferedReader in;
@@ -32,7 +36,9 @@ public class SocketThread extends Thread {
         try {
             String request = in.readLine();
 
-            String dtTag = parseTag(request);
+            log.info("TCP RECEIVED " + socket.getRemoteSocketAddress() + " [" + request + "]");
+
+            String dtTag = parseDynatraceTag(request);
             if (dtTag != null) {
                 DynaTraceADKFactory.initialize();
                 tagging = DynaTraceADKFactory.createTagging();
@@ -73,9 +79,11 @@ public class SocketThread extends Thread {
     private void send(String response) {
         out.println(response);
         out.flush();
+
+        log.info("TCP SEND " + socket.getRemoteSocketAddress() + " [" + response + "]");
     }
 
-    private String parseTag(String request) {
+    private String parseDynatraceTag(String request) {
         String[] parts = request.split("\\|");
         if (parts.length == 3) {
             return parts[2];

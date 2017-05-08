@@ -52,10 +52,10 @@ public class ChatMessage {
     @Override
     public String toString() {
         return "{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", message='" + message + '\'' +
-                ", timestamp=" + timestamp +
+                "\"id\" : " + id +
+                ", \"name\": \"" + name + '"' +
+                ", \"message\": \"" + message + '"' +
+                ", \"date\": \"" + timestamp + '"' +
                 "}";
     }
 }
