@@ -49,33 +49,28 @@ public class ClassTransformer implements ClassFileTransformer {
         CtMethod oldMethod = clazz.getDeclaredMethod(methodName);
 
         // Rename old method to synthetic name
-        String changedName = methodName + "$orig";
+        String changedName = methodName + "$original";
         oldMethod.setName(changedName);
 
         // Duplicate the method with original name for use as interceptor
         CtMethod newMethod = CtNewMethod.copy(oldMethod, methodName, clazz, null);
-
         String type = oldMethod.getReturnType().getName();
+        String code = String.format(
+            "{" +
+            "  long start = System.currentTimeMillis();" +
+            "  %s result = %s($$);" +
+            "  System.out.println(\"Agent: %s took \" + (System.currentTimeMillis() - start) + \" ms\");" +
+            "  return result;" +
+            "}", type, changedName, methodName);
 
-        StringBuffer body = new StringBuffer();
-        body.append("{ long start = System.currentTimeMillis();");
+        String voidCode = String.format(
+            "{" +
+            "  long start = System.currentTimeMillis();" +
+            "  %s($$);" +
+            "  System.out.println(\"Agent: %s took \" + (System.currentTimeMillis() - start) + \" ms\");" +
+            "}", changedName, methodName);
 
-        if (!"void".equals(type)) {
-            body.append(type + " result = "); // Capture returned value (if not void)
-        }
-
-        body.append(changedName + "($$);"); // Call existed method
-
-        //  Print timing information
-        body.append("System.out.println(\"Agent: " + methodName + " took \" + (System.currentTimeMillis()-start) + \" ms.\");");
-
-        if (!"void".equals(type)) {
-            body.append("return result;"); //  Return captured value (if not void)
-        }
-
-        body.append("}");
-
-        newMethod.setBody(body.toString());
+        newMethod.setBody("void".equals(type) ? voidCode : code);
         clazz.addMethod(newMethod);
     }
 
