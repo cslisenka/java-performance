@@ -36,8 +36,8 @@ public class FrontendAppMain {
     @Bean
     ILoadBalancer ribbon() {
         List<Server> servers = Arrays.asList(
-            new Server("localhost:8988")//,
-//            new Server("localhost:8987")
+            new Server("localhost:8988"),
+            new Server("localhost:8987")
         );
 
         return LoadBalancerBuilder.newBuilder()
