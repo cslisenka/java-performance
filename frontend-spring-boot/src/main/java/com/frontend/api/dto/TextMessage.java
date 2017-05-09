@@ -1,4 +1,4 @@
-package com.frontend.dto;
+package com.frontend.api.dto;
 
 public class TextMessage {
 

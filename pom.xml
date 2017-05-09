@@ -12,6 +12,7 @@
 		<module>backend-tomcat</module>
 		<module>frontend-spring-boot</module>
 		<module>java-agent</module>
+		<module>common</module>
 	</modules>
 
 	<properties>

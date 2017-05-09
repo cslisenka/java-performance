@@ -1,9 +1,17 @@
-package com.backend.chat.rest;
+package com.backend.dto;
 
 public class AddMessageRequest {
 
     private String name;
     private String message;
+
+    public AddMessageRequest() {
+    }
+
+    public AddMessageRequest(String name, String message) {
+        this.name = name;
+        this.message = message;
+    }
 
     public String getName() {
         return name;

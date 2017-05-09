@@ -51,21 +51,20 @@
         <property name="brokerURL" value="tcp://localhost:61616" />
     </bean>
 
-    <bean id="messageDestination" class="org.apache.activemq.command.ActiveMQQueue">
+    <bean id="chatQueue" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg value="chatQueue" />
     </bean>
 
     <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="destination" ref="messageDestination"/>
-        <property name="messageListener" ref="chatMessageListener" />
+        <property name="destination" ref="chatQueue"/>
+        <property name="messageListener" ref="jmsListener" />
     </bean>
 
-    <bean id="serverSocket" class="com.backend.chat.tcp.SocketService">
+    <bean id="serverSocket" class="com.backend.api.TCPSocketService">
         <constructor-arg value="${tcp.port:8986}"/>
     </bean>
 
-    <!-- Zipkin configuration -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/*"/>
@@ -73,5 +72,5 @@
         </mvc:interceptor>
     </mvc:interceptors>
     
-    <bean class="com.backend.chat.zipkin.ZipkinConfiguration"/>
+    <bean class="com.backend.zipkin.ZipkinConfiguration"/>
 </beans>

@@ -1,4 +1,4 @@
-package com.backend.chat.dao;
+package com.backend.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,7 +18,7 @@ public class ChatDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public boolean addNewMessage(String name, String message) {
+    public boolean add(String name, String message) {
         // Simulating errors
         if ("error".equals(name)) {
             throw new RuntimeException("backend error");
@@ -29,8 +29,9 @@ public class ChatDAO {
     }
 
     @Transactional(readOnly = true)
-    public List<ChatMessage> getAllMessages() {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from ChatMessage msg order by msg.timestamp DESC").setMaxResults(5).list();
+    public List<ChatMessage> getAll() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from ChatMessage msg order by msg.timestamp DESC")
+                .setMaxResults(5).list();
     }
 }

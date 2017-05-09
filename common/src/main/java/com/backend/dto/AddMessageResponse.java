@@ -1,8 +1,11 @@
-package com.backend.chat.rest;
+package com.backend.dto;
 
 public class AddMessageResponse {
 
-    private final boolean success;
+    private boolean success;
+
+    public AddMessageResponse() {
+    }
 
     public AddMessageResponse(boolean success) {
         this.success = success;

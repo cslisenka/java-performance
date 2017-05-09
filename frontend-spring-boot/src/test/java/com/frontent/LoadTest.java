@@ -1,5 +1,6 @@
 package com.frontent;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,6 +11,7 @@ public class LoadTest {
     RestTemplate template = new RestTemplate();
     int callsPerMinute = 60;
 
+    @Ignore
     @Test
     public void callChatSync() throws InterruptedException {
         while (true) {

@@ -1,4 +1,4 @@
-package com.backend.chat.zipkin;
+package com.backend.zipkin;
 
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.http.DefaultSpanNameProvider;
@@ -27,8 +27,7 @@ public class ZipkinConfiguration {
     /** Configuration for how to buffer spans into messages for Zipkin */
     @Bean Reporter<Span> reporter() {
 //        return new LoggingReporter();
-        // uncomment to actually send to zipkin
-        return AsyncReporter.builder(sender()).build();
+        return AsyncReporter.builder(sender()).build(); // Sends to Zipkin
     }
 
     @Bean Brave brave() {

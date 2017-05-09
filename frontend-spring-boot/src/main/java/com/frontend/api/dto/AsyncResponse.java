@@ -1,10 +1,10 @@
-package com.frontend.dto;
+package com.frontend.api.dto;
 
-public class AsyncResponseDTO {
+public class AsyncResponse {
 
     private final String response;
 
-    public AsyncResponseDTO(String response) {
+    public AsyncResponse(String response) {
         this.response = response;
     }
 

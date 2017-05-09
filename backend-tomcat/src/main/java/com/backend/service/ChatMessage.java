@@ -1,4 +1,4 @@
-package com.backend.chat.dao;
+package com.backend.service;
 
 import javax.persistence.*;
 import java.util.Date;
