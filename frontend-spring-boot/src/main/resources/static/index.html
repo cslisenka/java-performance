@@ -36,27 +36,25 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>HTTP web-service call</h2>
-                <p>Browser -> Frontend -> Backend -> DB</p>
+                <p class="lead">Browser <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>HTTP</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB</p>
                 <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chat" name="I am HTTP" role="button">Do web-service call &raquo;</a></p>
             </div>
+
             <div class="col-md-6">
                 <h2>JMS</h2>
-                <p>Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB</p>
-                <p>
-                    Submits message to ActiveMQ chatQueue<br>
-                    Backend gets message and adds new record to DB<br>
-                    Returns immediately
-                </p>
-                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatAsync" name="I am JMS" role="button">Submit JMS message &raquo;</a></p>
+                <p class="lead">Browser <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>JMS</kbd> &#8594; ActiveMQ <kbd>JMS</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB</p>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatAsync" name="I am JMS" role="button">Send JMS message &raquo;</a></p>
             </div>
         </div>
+
+        <div class="row">
+            <hr>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <h2>TCP/IP custom protocol</h2>
-                <p>Browser -> Frontend -> ActiveMQ (chatQueue) -> Backend -> DB</p>
-                <p>
-                    Frontend sends data to Backend via custom TCP-based protocol
-                </p>
+                <p class="lead">Browser <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>TCP</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB</p>
                 <p>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatTcp" name="I am TCP" role="button">Send TCP message &raquo;</a>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatTcpTagging" name="I am TCP with tagging" role="button">Send and tag TCP message &raquo;</a>
@@ -64,23 +62,27 @@
             </div>
             <div class="col-md-6">
                 <h2>Async invocations</h2>
-                <p>
-                    Async invocations + multithreading (new thread, executor service, completable future)<br>
-                    Browser -> Frontend -> async invocation -> Backend -> DB
+                <p class="lead">
+                    Frontend <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>async + HTTP</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB
                 </p>
                 <p>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatNewThread" name="I am HTTP in new thread" role="button">New thread &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPool" name="I am HTTP in thread pool" role="button">ExecutorService &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPoolAsync" name="I am HTTP within async invocation" role="button">Async invocation &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPool" name="I am HTTP in thread pool" role="button">Thread pool + Callable &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPoolAsync" name="I am HTTP within async invocation" role="button">Thread pool + Callable, return immediately &raquo;</a>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatCompletableFuture" name="I am HTTP in completable future" role="button">Completable future &raquo;</a>
                 </p>
             </div>
         </div>
+
+        <div class="row">
+            <hr>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <h2>Exceptions</h2>
-                <p>
-                    Exception thrown somewhere on backend
+                <p class="lead">
+                    Frontend <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>HTTP</kbd> &#8594; Tomcat &#8594; Exception!
                 </p>
                 <p>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chat" name="error" role="button">Submit call with exception &raquo;</a>
