@@ -1,5 +1,5 @@
 # Java agent example
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.to.backend.Backend=chatSync="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
+-javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
 
 # Dynatrace agent configuration
 frontent-spring-boot:
@@ -10,7 +10,6 @@ backend-tomcat 1:
 
 backend-tomcat 2:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=desktop-j2vhacg:9998 -Dtcp.port=8984
-
 
 ActiveMQ
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagent.dll"=name=ActiveMQ_TestPOC,server=desktop-j2vhacg:9998

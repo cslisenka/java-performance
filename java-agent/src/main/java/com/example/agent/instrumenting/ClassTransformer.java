@@ -10,30 +10,32 @@ import java.security.ProtectionDomain;
 
 public class ClassTransformer implements ClassFileTransformer {
 
-    private final String instrumentedClassName;
-    private final String methodName;
-    private final String saveBytecodeTo;
+    private final String clazzName;
+    private final String method;
+    private final String saveTo;
 
-    public ClassTransformer(String instrumentedClassName, String methodName, String saveBytecodeTo) {
-        this.instrumentedClassName = instrumentedClassName;
-        this.methodName = methodName;
-        this.saveBytecodeTo = saveBytecodeTo;
+    public ClassTransformer(String clazzName, String method, String saveTo) {
+        this.clazzName = clazzName;
+        this.method = method;
+        this.saveTo = saveTo;
     }
 
     @Override
-    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (className.replace("/", ".").equals(instrumentedClassName)) {
-            System.out.println("Agent: Instrumenting " + className);
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
+                            ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+        if (className.replace("/", ".").equals(clazzName)) {
+            System.out.println("Agent: instrumenting " + className);
             try {
                 ClassPool classPool = ClassPool.getDefault();
-                CtClass clazz = classPool.get(instrumentedClassName);
-                addTiming(clazz, methodName);
+                CtClass clazz = classPool.get(clazzName);
+                addTiming(clazz, method);
 
                 byte[] byteCode = clazz.toBytecode();
                 clazz.detach();
-                store(byteCode, saveBytecodeTo + "/" + clazz.getSimpleName() + ".class");
 
-                System.out.println("Agent: Instrumented successfully " + className);
+                saveByteCode(byteCode, clazz.getSimpleName());
+
+                System.out.println("Agent: instrumented successfully " + clazzName + "." + method);
                 return byteCode;
             } catch (Throwable t) {
                 t.printStackTrace();
@@ -43,7 +45,7 @@ public class ClassTransformer implements ClassFileTransformer {
         return classfileBuffer;
     }
 
-    private static void addTiming(CtClass clazz, String methodName) throws NotFoundException, CannotCompileException {
+    private void addTiming(CtClass clazz, String methodName) throws NotFoundException, CannotCompileException {
         CtMethod oldMethod = clazz.getDeclaredMethod(methodName);
 
         // Rename old method to synthetic name
@@ -77,10 +79,11 @@ public class ClassTransformer implements ClassFileTransformer {
         clazz.addMethod(newMethod);
     }
 
-    private static void store(byte[] byteCode, String path) throws IOException {
+    private void saveByteCode(byte[] byteCode, String className) throws IOException {
+        String path = saveTo + "/" + className + ".class";
         FileOutputStream os = new FileOutputStream(path);
         os.write(byteCode);
         os.close();
-        System.out.println("Saved byte-code to " + path);
+        System.out.println("Agent: Saved " + path);
     }
 }
