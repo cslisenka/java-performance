@@ -1,5 +1,11 @@
-# Java agent example
+# Instrumenting Java agent example
 -javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
+
+# Logging Java agent example
+-javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent-logging\target\java-agent-logging-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
+
+# Instrumenting agent + dynatrace
+-javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target" -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=desktop-j2vhacg:9998
 
 # Dynatrace agent configuration
 frontent-spring-boot:

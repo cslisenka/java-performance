@@ -9,10 +9,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
+		<module>common</module>
 		<module>backend-tomcat</module>
 		<module>frontend-spring-boot</module>
 		<module>java-agent</module>
-		<module>common</module>
+        <module>java-agent-logging</module>
 	</modules>
 
 	<properties>

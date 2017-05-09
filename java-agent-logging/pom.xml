@@ -6,19 +6,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>java-agent</artifactId>
+    <artifactId>java-agent-logging</artifactId>
     <packaging>jar</packaging>
 
     <properties>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.21.0-GA</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -46,7 +38,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>com.example.agent.instrumenting.InstrumentingAgent</Premain-Class>
+                            <Premain-Class>com.example.agent.logging.LoggingAgent</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
