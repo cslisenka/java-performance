@@ -22,7 +22,7 @@ public class ClassTransformer implements ClassFileTransformer {
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
-                            ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+                            ProtectionDomain pd, byte[] byteCode) throws IllegalClassFormatException {
         if (className.replace("/", ".").equals(clazzName)) {
             System.out.println("Agent: instrumenting " + className);
             try {
@@ -30,19 +30,19 @@ public class ClassTransformer implements ClassFileTransformer {
                 CtClass clazz = classPool.get(clazzName);
                 addTiming(clazz, method);
 
-                byte[] byteCode = clazz.toBytecode();
+                byte[] instrumentedByteCode = clazz.toBytecode();
                 clazz.detach();
 
-                saveByteCode(byteCode, clazz.getSimpleName());
+                saveByteCode(instrumentedByteCode, clazz.getSimpleName());
 
                 System.out.println("Agent: instrumented successfully " + clazzName + "." + method);
-                return byteCode;
+                return instrumentedByteCode;
             } catch (Throwable t) {
                 t.printStackTrace();
             }
         }
 
-        return classfileBuffer;
+        return byteCode;
     }
 
     private void addTiming(CtClass clazz, String methodName) throws NotFoundException, CannotCompileException {

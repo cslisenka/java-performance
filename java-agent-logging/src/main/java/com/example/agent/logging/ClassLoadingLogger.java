@@ -10,7 +10,8 @@ public class ClassLoadingLogger implements ClassFileTransformer {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException {
-        System.out.println("Loaded class " + className);
+        System.out.format("[%s] [logging agent] ClassLoader: %s Class: %s\n",
+                Thread.currentThread().getName(), loader.getClass().getName(), className);
         return classfileBuffer;
     }
 }

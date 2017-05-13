@@ -2,11 +2,10 @@ package com.example.agent.instrumenting;
 
 import java.lang.instrument.Instrumentation;
 
-// TODO manipulate methods of class String, or Thread! Add this to the example
-// TODO add custom classloader
 public class InstrumentingAgent {
 
     public static void premain(String args, Instrumentation instrumentation){
+        // Agent intercepts class-loading for all class loaders starting from AppClassLoader (System)
         System.out.println("Agent: I am instrumenting java agent " + args);
         String[] params = args.split("=");
         if (params.length == 3) {
