@@ -14,7 +14,8 @@
 		<module>frontend-spring-boot</module>
 		<module>java-agent</module>
         <module>java-agent-logging</module>
-	</modules>
+        <module>jvm-diagnostic-api</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
