@@ -1,9 +1,9 @@
-package com.example.classloading;
+package com.example.agent.examples;
 
 import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.ManagementFactory;
 
-public class MainClassLoading {
+public class ClassLoading {
 
     public static void main(String[] args) {
         ClassLoadingMXBean classLoadingMXBean = ManagementFactory.getClassLoadingMXBean();

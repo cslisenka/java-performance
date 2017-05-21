@@ -1,4 +1,4 @@
-package com.example.agent.logging;
+package com.example.agent.monitoring;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -10,7 +10,7 @@ public class ClassLoadingLogger implements ClassFileTransformer {
             Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain,
             byte[] classfileBuffer) throws IllegalClassFormatException {
-        System.out.format("[%s] [logging agent] ClassLoader: %s Class: %s\n",
+        System.out.format("[%s] [monitoring agent] ClassLoader: %s Class: %s\n",
                 Thread.currentThread().getName(), loader.getClass().getName(), className);
         return classfileBuffer;
     }

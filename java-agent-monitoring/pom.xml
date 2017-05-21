@@ -6,7 +6,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>java-agent-logging</artifactId>
+    <artifactId>java-agent-monitoring</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -38,7 +38,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>com.example.agent.logging.LoggingAgent</Premain-Class>
+                            <Premain-Class>com.example.agent.monitoring.MonitoringAgent</Premain-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>

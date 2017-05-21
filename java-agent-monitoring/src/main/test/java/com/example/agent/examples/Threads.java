@@ -1,4 +1,4 @@
-package com.example.threads;
+package com.example.agent.examples;
 
 import com.sun.management.ThreadMXBean;
 
@@ -6,10 +6,10 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.util.Arrays;
 
-public class MainThreads {
+public class Threads {
 
     public static void main(String[] args) {
-        System.out.println("MainThreads");
+        System.out.println("Threads");
         ThreadMXBean threadMBean = (ThreadMXBean) ManagementFactory.getThreadMXBean();
 
         System.out.println("Thread count = " + threadMBean.getThreadCount());

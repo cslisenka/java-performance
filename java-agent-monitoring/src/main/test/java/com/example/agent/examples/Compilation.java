@@ -1,9 +1,9 @@
-package com.example.compilation;
+package com.example.agent.examples;
 
 import java.lang.management.CompilationMXBean;
 import java.lang.management.ManagementFactory;
 
-public class MainCompilation {
+public class Compilation {
 
     public static void main(String[] args) {
         CompilationMXBean compilationMXBean = ManagementFactory.getCompilationMXBean();

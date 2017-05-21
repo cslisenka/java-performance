@@ -15,7 +15,6 @@
 		<module>java-agent</module>
         <module>java-agent-logging</module>
 		<module>java-agent-monitoring</module>
-        <module>jvm-diagnostic-api</module>
     </modules>
 
 	<properties>

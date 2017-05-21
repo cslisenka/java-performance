@@ -1,10 +1,10 @@
-package com.example.os;
+package com.example.agent.examples;
 
 import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
 
-public class MainOS {
+public class OS {
 
     public static void main(String[] args) {
         OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();

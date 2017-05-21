@@ -17,7 +17,7 @@ public class CustomClassLoader extends ClassLoader {
         }
 
         if (name.contains(AgentWithClassLoaderTest.class.getName())) {
-            byte[] bytes = read(new File("").getAbsolutePath() + "\\java-agent-logging\\src\\test\\resources", AgentWithClassLoaderTest.class.getSimpleName());
+            byte[] bytes = read(new File("").getAbsolutePath() + "\\java-agent-monitoring\\src\\test\\resources", AgentWithClassLoaderTest.class.getSimpleName());
             clazz = defineClass(name, bytes, 0, bytes.length);
             resolveClass(clazz);
             return clazz;

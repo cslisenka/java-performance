@@ -1,16 +1,26 @@
-package com.example.agent.diagnostic;
+package com.example.agent.monitoring;
 
 import com.sun.management.GarbageCollectionNotificationInfo;
+import com.sun.management.GarbageCollectorMXBean;
 
 import javax.management.Notification;
+import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
 import javax.management.openmbean.CompositeData;
+import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryUsage;
 import java.util.Map;
 
-public class GCNotificationListener implements NotificationListener {
+public class GCLogger implements NotificationListener {
 
     private long totalGcDuration;
+
+    public GCLogger() {
+        ManagementFactory.getGarbageCollectorMXBeans().stream().forEach(bean -> {
+            GarbageCollectorMXBean gcBean = (GarbageCollectorMXBean) bean;
+            ((NotificationEmitter) gcBean).addNotificationListener(this, null, null);
+        });
+    }
 
     @Override
     public void handleNotification(Notification notification, Object handback) {
@@ -26,9 +36,6 @@ public class GCNotificationListener implements NotificationListener {
             }
             System.out.println();
             System.out.println(gctype + ": - " + info.getGcInfo().getId()+ " " + info.getGcName() + " (from " + info.getGcCause()+") "+duration + " milliseconds; start-end times " + info.getGcInfo().getStartTime()+ "-" + info.getGcInfo().getEndTime());
-            //System.out.println("GcInfo CompositeType: " + info.getGcInfo().getCompositeType());
-            //System.out.println("GcInfo MemoryUsageAfterGc: " + info.getGcInfo().getMemoryUsageAfterGc());
-            //System.out.println("GcInfo MemoryUsageBeforeGc: " + info.getGcInfo().getMemoryUsageBeforeGc());
 
             //Get the information about each memory space, and pretty print it
             Map<String, MemoryUsage> membefore = info.getGcInfo().getMemoryUsageBeforeGc();

@@ -1,14 +1,14 @@
-package com.example.memory;
+package com.example.agent.examples;
 
+import com.example.agent.monitoring.GCLogger;
 import com.sun.management.GarbageCollectorMXBean;
 
 import javax.management.NotificationEmitter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
-import java.lang.management.ThreadMXBean;
 import java.util.Arrays;
 
-public class MainMemory {
+public class MemoryAndGC {
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println(">>>>> Memory");
@@ -20,8 +20,7 @@ public class MainMemory {
         System.out.println(">>>>> GC");
         ManagementFactory.getGarbageCollectorMXBeans().stream().forEach(bean -> {
             GarbageCollectorMXBean gcBean = (GarbageCollectorMXBean) bean;
-
-            ((NotificationEmitter) gcBean).addNotificationListener(new GCNotificationListener(), null, null);
+            ((NotificationEmitter) gcBean).addNotificationListener(new GCLogger(), null, null);
 
             System.out.println(">> " + gcBean.getName());
             System.out.println("Collection count: " + gcBean.getCollectionCount());
