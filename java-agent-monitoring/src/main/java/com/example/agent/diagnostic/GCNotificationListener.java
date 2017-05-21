@@ -1,4 +1,4 @@
-package com.example.memory;
+package com.example.agent.diagnostic;
 
 import com.sun.management.GarbageCollectionNotificationInfo;
 
