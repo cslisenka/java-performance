@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -32,6 +35,7 @@ public class ThreadsDemo {
     public TextMessage[] chatNewThread(@RequestParam(value="name") String name,
                                        @RequestParam(value="message") String message) throws InterruptedException {
 
+        // SHOW THREAD LOCALS
         AtomicReference<TextMessage[]> result = new AtomicReference<>();
         // Dynatrace does not associate new thread with current pure path
         Thread newThread = new Thread(() -> {

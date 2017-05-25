@@ -32,6 +32,6 @@ public class ChatDAO {
     public List<ChatMessage> getAll() {
         return sessionFactory.getCurrentSession()
                 .createQuery("from ChatMessage msg order by msg.timestamp DESC")
-                .setMaxResults(5).list();
+                .setMaxResults(2).list();
     }
 }

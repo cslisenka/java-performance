@@ -1,4 +1,4 @@
-package org.example.agent.logging;
+package com.example.agent.logging;
 
 import java.io.*;
 
