@@ -62,7 +62,7 @@
     </bean>
 
     <bean id="serverSocket" class="com.backend.api.TCPSocketService">
-        <constructor-arg value="${tcp.port:8986}"/>
+        <constructor-arg value="${tcp.port:8985}"/>
     </bean>
 
     <mvc:interceptors>

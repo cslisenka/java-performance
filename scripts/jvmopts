@@ -1,34 +1,34 @@
 # Instrumenting Java agent example
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target"
+-javaagent:"E:\work\java-performance\java-performance\java-agent-instrumenting\target\java-agent-instrumenting-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="E:\work\java-performance\java-performance\java-agent-instrumenting\target"
 
 # Logging Java agent example
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent-logging\target\java-agent-logging-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
+-javaagent:"E:\work\java-performance\java-performance\java-agent-logging\target\java-agent-logging-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
 
 # Monitoring Java agent example
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent-monitoring\target\java-agent-monitoring-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
+-javaagent:"E:\work\java-performance\java-performance\java-agent-monitoring\target\java-agent-monitoring-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
 
 # Printing safe-point statistics
 -XX:+PrintGCApplicationStoppedTime -XX:+PrintSafepointStatistics -XX:PrintSafepointStatisticsCount=1
 
 # Instrumenting agent + dynatrace
--javaagent:"C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target" -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=localhost:9998
+-javaagent:"E:\work\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.BackendService=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target" -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=localhost:9998
 
 # Dynatrace agent configuration
-frontent-spring-boot:
+frontent:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=localhost:9998
 
-backend-tomcat 1:
+backend 1:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=localhost:9998 -Dtcp.port=8985
 
-backend-tomcat 2:
+backend 2:
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Backend_Tomcat_TestPOC,server=localhost:9998 -Dtcp.port=8984
 
 ActiveMQ
 -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagent.dll"=name=ActiveMQ_TestPOC,server=localhost:9998
 
 # Active MQ
-C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq start
-C:\Work\JAVA tech talks\Dynotrace\apache-activemq-5.14.4-bin\bin\activemq stop
+E:\work\java-performance\env\apache-activemq-5.14.4-bin\bin\activemq start
+E:\work\java-performance\env\apache-activemq-5.14.4-bin\bin\activemq stop
 http://localhost:8161/admin/
 
 # Zipkin

@@ -2,7 +2,7 @@ package com.frontend.api;
 
 import com.frontend.api.dto.AsyncResponse;
 import com.frontend.api.dto.TextMessage;
-import com.frontend.service.Backend;
+import com.frontend.service.BackendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -25,7 +22,7 @@ public class ThreadsDemo {
     private static final Logger log = LoggerFactory.getLogger(ThreadsDemo.class);
 
     @Autowired
-    private Backend backend;
+    private BackendService backendService;
 
     @Autowired
     @Qualifier("threadPool")
@@ -40,7 +37,7 @@ public class ThreadsDemo {
         // Dynatrace does not associate new thread with current pure path
         Thread newThread = new Thread(() -> {
             log.info("in new thread");
-            result.set(backend.callHTTP(name, message));
+            result.set(backendService.callHTTP(name, message));
         });
 
         newThread.start();
@@ -54,7 +51,7 @@ public class ThreadsDemo {
 
         Future<TextMessage[]> future = threadPool.submit(() -> {
             log.info("in thread pool");
-            return backend.callHTTP(name, message);
+            return backendService.callHTTP(name, message);
         });
         return future.get();
     }
@@ -65,7 +62,7 @@ public class ThreadsDemo {
         threadPool.submit(() -> {
             log.info("in thread pool + async invocation");
             delay(1500);
-            backend.callHTTP(name, message);
+            backendService.callHTTP(name, message);
         });
 
         return new AsyncResponse("HTTP call being executed asynchronously");
@@ -77,11 +74,11 @@ public class ThreadsDemo {
         return CompletableFuture
             .supplyAsync(() -> {
                 log.info("in completable future");
-                return backend.httpAddMessage(name, message);
+                return backendService.httpAddMessage(name, message);
             })
             .thenApply((response) -> {
                 if (response.isSuccess()) {
-                    return backend.httpGetMessages();
+                    return backendService.httpGetMessages();
                 }
 
                 throw new RuntimeException("Backend error in completable future");

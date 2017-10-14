@@ -4,7 +4,7 @@ import com.backend.dto.AddMessageRequest;
 import com.backend.dto.AddMessageResponse;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
-import com.frontend.FrontendAppMain;
+import com.frontend.FrontendMain;
 import com.frontend.api.dto.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +22,10 @@ import java.io.*;
 import java.net.Socket;
 
 @Component
-@RibbonClient(name = "ribbon-backend", configuration = FrontendAppMain.class)
-public class Backend {
+@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
+public class BackendService {
 
-    private static final Logger log = LoggerFactory.getLogger(Backend.class);
+    private static final Logger log = LoggerFactory.getLogger(BackendService.class);
 
     public static final String ADD_MESSAGE_URL = "http://ribbon-backend/add";
     public static final String GET_MESSAGES_URL = "http://ribbon-backend/getAll";

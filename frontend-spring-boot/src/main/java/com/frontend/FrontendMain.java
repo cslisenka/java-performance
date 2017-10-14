@@ -26,18 +26,18 @@ import java.util.concurrent.Executors;
 @SpringBootApplication
 @EnableJms
 @Configuration
-@RibbonClient(name = "ribbon-backend", configuration = FrontendAppMain.class)
-public class FrontendAppMain {
+@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
+public class FrontendMain {
 
     public static void main(String[] args) {
-		SpringApplication.run(FrontendAppMain.class, args);
+		SpringApplication.run(FrontendMain.class, args);
     }
 
     @Bean
     ILoadBalancer ribbon() {
         List<Server> servers = Arrays.asList(
-            new Server("localhost:8988"),
-            new Server("localhost:8987")
+            new Server("localhost:8988") //,
+//            new Server("localhost:8987")
         );
 
         return LoadBalancerBuilder.newBuilder()

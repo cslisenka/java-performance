@@ -12,7 +12,7 @@
 		<module>common</module>
 		<module>backend-tomcat</module>
 		<module>frontend-spring-boot</module>
-		<module>java-agent</module>
+		<module>java-agent-instrumenting</module>
         <module>java-agent-logging</module>
 		<module>java-agent-monitoring</module>
 	</modules>
