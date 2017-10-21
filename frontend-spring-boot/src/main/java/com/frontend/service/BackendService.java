@@ -42,13 +42,6 @@ public class BackendService {
     @Autowired
     private RestTemplate http;
 
-    public void sendJMS(final String name, final String message) {
-        final String messageText = name + "|" + message;
-        jms.send(chatQueue, session -> session.createTextMessage(messageText));
-
-        log.info("JMS SENT [{}] to {}", messageText, chatQueue);
-    }
-
     public TextMessage[] callHTTP(final String name, final String message) {
         AddMessageResponse response = httpAddMessage(name, message);
 
@@ -69,6 +62,13 @@ public class BackendService {
         log.info("HTTP GET {}", GET_MESSAGES_URL);
         ResponseEntity<TextMessage[]> messages = http.getForEntity(GET_MESSAGES_URL, TextMessage[].class);
         return messages.getBody();
+    }
+
+    public void sendJMS(final String name, final String message) {
+        final String messageText = name + "|" + message;
+        jms.send(chatQueue, session -> session.createTextMessage(messageText));
+
+        log.info("JMS SENT [{}] to {}", messageText, chatQueue);
     }
 
     public String sendTCP(final String name, final String message) throws IOException {
