@@ -26,24 +26,24 @@ import java.util.concurrent.Executors;
 @SpringBootApplication
 @EnableJms
 @Configuration
-@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
+//@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
 public class FrontendMain {
 
     public static void main(String[] args) {
 		SpringApplication.run(FrontendMain.class, args);
     }
 
-    @Bean
-    ILoadBalancer ribbon() {
-        List<Server> servers = Arrays.asList(
-            new Server("localhost:8988") //,
-//            new Server("localhost:8987")
-        );
-
-        return LoadBalancerBuilder.newBuilder()
-                .withRule(new WeightedResponseTimeRule())
-                .buildFixedServerListLoadBalancer(servers);
-    }
+//    @Bean
+//    ILoadBalancer ribbon() {
+//        List<Server> servers = Arrays.asList(
+//            new Server("localhost:8988") //,
+////            new Server("localhost:8987")
+//        );
+//
+//        return LoadBalancerBuilder.newBuilder()
+//                .withRule(new WeightedResponseTimeRule())
+//                .buildFixedServerListLoadBalancer(servers);
+//    }
 
     @Bean
     JmsTemplate jmsTemplate() {

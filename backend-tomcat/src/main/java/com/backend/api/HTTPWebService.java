@@ -35,7 +35,6 @@ public class HTTPWebService {
     @RequestMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ChatMessage> getAll(HttpServletRequest request) {
         log("/get", request);
-
         return dao.getAll();
     }
 

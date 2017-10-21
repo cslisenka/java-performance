@@ -22,13 +22,16 @@ import java.io.*;
 import java.net.Socket;
 
 @Component
-@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
+//@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
 public class BackendService {
 
     private static final Logger log = LoggerFactory.getLogger(BackendService.class);
 
-    public static final String ADD_MESSAGE_URL = "http://ribbon-backend/add";
-    public static final String GET_MESSAGES_URL = "http://ribbon-backend/getAll";
+//    public static final String ADD_MESSAGE_URL_RIBBON = "http://ribbon-backend/add";
+//    public static final String GET_MESSAGES_URL_RIBBON = "http://ribbon-backend/getAll";
+
+    public static final String ADD_MESSAGE_URL = "http://localhost:8988/add";
+    public static final String GET_MESSAGES_URL = "http://localhost:8988/getAll";
 
     @Autowired
     private JmsTemplate jms;
@@ -41,9 +44,7 @@ public class BackendService {
 
     public void sendJMS(final String name, final String message) {
         final String messageText = name + "|" + message;
-        jms.send(chatQueue, session -> {
-            return session.createTextMessage(messageText);
-        });
+        jms.send(chatQueue, session -> session.createTextMessage(messageText));
 
         log.info("JMS SENT [{}] to {}", messageText, chatQueue);
     }

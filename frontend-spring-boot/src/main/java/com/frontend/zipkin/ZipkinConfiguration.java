@@ -59,7 +59,7 @@ public class ZipkinConfiguration extends WebMvcConfigurerAdapter {
     }
 
     // All components must use RestTemplate with Zipkin interceptors
-    @LoadBalanced
+//    @LoadBalanced
     @Bean
     RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();

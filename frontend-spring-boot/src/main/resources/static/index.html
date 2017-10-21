@@ -18,13 +18,13 @@
                 <a class="navbar-brand" href="#">Frontend (Spring boot)</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <!--ul class="nav navbar-nav">
                     <li><a href="http://localhost:8988" target="new">Backend #1 (Tomcat)</a></li>
                     <li><a href="http://localhost:8987" target="new">Backend #2 (Tomcat)</a></li>
                     <li><a href="http://localhost:8161/admin/" target="new">ActiveMQ</a></li>
                     <li><a href="https://localhost:9911/index.jsp#transaction-flow" target="new">Dynatrace</a></li>
                     <li><a href="http://localhost:9411/" target="new">Zipkin</a></li>
-                </ul>
+                </ul-->
             </div>
         </div>
     </nav>
@@ -97,11 +97,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">HTTP call to http://localhost:8989/chat?name=bbb&message=bbb</h4>
+                    <h4 class="modal-title" id="myModalLabel">HTTP call to http://localhost:8080/chat?name=bbb&message=bbb</h4>
                 </div>
                 <div class="modal-body">
                     <b>Request</b><br>
-                    <pre id="requestArea">GET http://localhost:8989/chat?name=aaa&message=bbb</pre>
+                    <pre id="requestArea">GET http://localhost:8080/chat?name=aaa&message=bbb</pre>
 
                     <b>Response</b><br>
                     <div class="progress" id="requestInProgress">
@@ -130,7 +130,7 @@
             counter++;
             var message = "Hello, " + name + " (" + counter + ")";
             var request = 'name=' + name + '&message=' + message;
-            var fullUrl = 'http://localhost:8989' + url + '?' + request;
+            var fullUrl = 'http://localhost:8080' + url + '?' + request;
             var modal = $(this)
 
             modal.find('.modal-title').text("GET " + fullUrl);

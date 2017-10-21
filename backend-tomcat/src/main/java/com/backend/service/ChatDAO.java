@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
@@ -17,6 +18,11 @@ public class ChatDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @PostConstruct
+    public void init() {
+        jdbcTemplate.execute("DELETE FROM chat");
+    }
 
     public boolean add(String name, String message) {
         // Simulating errors
