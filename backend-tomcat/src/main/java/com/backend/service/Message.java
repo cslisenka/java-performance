@@ -5,13 +5,12 @@ import java.util.Date;
 
 @Entity
 @Table(name = "chat")
-public class ChatMessage {
+public class Message {
 
     @Id
     @GeneratedValue
     private long id;
 
-    private String name;
     private String message;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -23,14 +22,6 @@ public class ChatMessage {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getMessage() {
@@ -53,7 +44,6 @@ public class ChatMessage {
     public String toString() {
         return "{" +
                 "\"id\" : " + id +
-                ", \"name\": \"" + name + '"' +
                 ", \"message\": \"" + message + '"' +
                 ", \"date\": \"" + timestamp + '"' +
                 "}";

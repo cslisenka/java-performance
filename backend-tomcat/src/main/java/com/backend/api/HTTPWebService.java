@@ -1,6 +1,6 @@
 package com.backend.api;
 
-import com.backend.service.ChatMessage;
+import com.backend.service.Message;
 import com.backend.service.ChatDAO;
 import com.backend.dto.AddMessageRequest;
 import com.backend.dto.AddMessageResponse;
@@ -33,7 +33,7 @@ public class HTTPWebService {
 
     @ResponseBody
     @RequestMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ChatMessage> getAll(HttpServletRequest request) {
+    public List<Message> getAll(HttpServletRequest request) {
         log("/get", request);
         return dao.getAll();
     }

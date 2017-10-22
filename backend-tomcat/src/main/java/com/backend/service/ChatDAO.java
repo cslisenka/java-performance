@@ -1,6 +1,5 @@
 package com.backend.service;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,14 +29,14 @@ public class ChatDAO {
             throw new RuntimeException("backend error");
         }
 
-        int rows = jdbcTemplate.update("INSERT INTO chat (name, message, timestamp) VALUES (?, ?, NOW())", name, message);
+        int rows = jdbcTemplate.update("INSERT INTO chat (message, timestamp) VALUES (?, NOW())", message);
         return rows > 0;
     }
 
     @Transactional(readOnly = true)
-    public List<ChatMessage> getAll() {
+    public List<Message> getAll() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from ChatMessage msg order by msg.timestamp DESC")
+                .createQuery("from Message msg order by msg.timestamp DESC")
                 .setMaxResults(2).list();
     }
 }
