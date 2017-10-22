@@ -536,7 +536,7 @@
           </class>
           <class delegationsuppression="false" placed="true" pattern="com.backend.api.HTTPWebService" match="equals" techtype="java">
             <method placed="include" visibility="publicType" pattern="add" match="equals" inheritance="auto" capture="active" deepobjectaccessor="" argsspecified="true" onlyinstrumentifsynchappens="false" capturereturn="false" api="&lt;api unknown&gt;" overrideable="true" synctime="true">
-              <argument deepobjectaccessor="" argumentname="" pattern="com.backend.dto.AddMessageRequest" match="equals" capture="false" />
+              <argument deepobjectaccessor="" argumentname="" pattern="com.backend.dto.MessageDTO" match="equals" capture="false" />
               <argument deepobjectaccessor="" argumentname="" pattern="javax.servlet.http.HttpServletRequest" match="equals" capture="false" />
             </method>
             <method placed="include" visibility="publicType" pattern="getAll" match="equals" inheritance="auto" capture="active" deepobjectaccessor="" argsspecified="true" onlyinstrumentifsynchappens="false" capturereturn="false" api="&lt;api unknown&gt;" overrideable="true" synctime="true">

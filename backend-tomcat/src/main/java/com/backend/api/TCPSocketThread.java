@@ -38,7 +38,7 @@ public class TCPSocketThread extends Thread {
                     tagging.startServerPurePath();
                 }
 
-                dao.add(data[0], data[1]); // name and message
+                dao.add(data[1]); // name and message
                 send(socket, dao.getAll().toString());
             } finally {
                 socket.close();

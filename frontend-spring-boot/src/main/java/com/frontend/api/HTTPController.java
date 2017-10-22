@@ -1,6 +1,6 @@
 package com.frontend.api;
 
-import com.backend.dto.AddMessageRequest;
+import com.backend.dto.MessageDTO;
 import com.backend.dto.AddMessageResponse;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
@@ -53,7 +53,7 @@ public class HTTPController {
                               @RequestParam(value="message") String message) {
         log.info("HTTP POST {} [{}, {}]", ADD_MESSAGE_URL, name, message);
         AddMessageResponse response =  http.postForObject(ADD_MESSAGE_URL,
-                new AddMessageRequest(name, message), AddMessageResponse.class);
+                new MessageDTO(message), AddMessageResponse.class);
 
         if (response.isSuccess()) {
             log.info("HTTP GET {}", GET_MESSAGES_URL);
@@ -142,7 +142,7 @@ public class HTTPController {
                 log.info("in completable future");
                 log.info("HTTP POST {} [{}, {}]", ADD_MESSAGE_URL, name, message);
                 return http.postForObject(ADD_MESSAGE_URL,
-                        new AddMessageRequest(name, message), AddMessageResponse.class);
+                        new MessageDTO(message), AddMessageResponse.class);
             })
             .thenApply((response) -> {
                 log.info("HTTP GET {}", GET_MESSAGES_URL);

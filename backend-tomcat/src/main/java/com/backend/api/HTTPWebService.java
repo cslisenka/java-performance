@@ -1,9 +1,8 @@
 package com.backend.api;
 
-import com.backend.service.Message;
-import com.backend.service.ChatDAO;
-import com.backend.dto.AddMessageRequest;
 import com.backend.dto.AddMessageResponse;
+import com.backend.dto.MessageDTO;
+import com.backend.service.ChatDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class HTTPWebService {
@@ -24,18 +24,18 @@ public class HTTPWebService {
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AddMessageResponse add(@RequestBody AddMessageRequest message, HttpServletRequest request) {
+    public AddMessageResponse add(@RequestBody MessageDTO message, HttpServletRequest request) {
         log("/add", request);
 
-        boolean result = dao.add(message.getName(), message.getMessage());
+        boolean result = dao.add(message.getMessage());
         return new AddMessageResponse(result);
     }
 
     @ResponseBody
     @RequestMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Message> getAll(HttpServletRequest request) {
+    public List<MessageDTO> getAll(HttpServletRequest request) {
         log("/get", request);
-        return dao.getAll();
+        return dao.getAll().stream().map(msg -> new MessageDTO(msg.getMessage())).collect(Collectors.toList());
     }
 
     private void log(String methodName, HttpServletRequest request) {

@@ -26,7 +26,7 @@ public class JMSListener implements MessageListener {
         if (data != null && data.length == 2) {
             String name = data[0];
             String message = data[1];
-            dao.add(name, message);
+            dao.add(message);
         }
     }
 

@@ -23,9 +23,9 @@ public class ChatDAO {
         jdbcTemplate.execute("DELETE FROM chat");
     }
 
-    public boolean add(String name, String message) {
+    public boolean add(String message) {
         // Simulating errors
-        if ("error".equals(name)) {
+        if ("error".equals(message)) {
             throw new RuntimeException("backend error");
         }
 
