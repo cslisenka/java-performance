@@ -1,6 +1,5 @@
 package com.backend.api;
 
-import com.backend.dto.AddMessageResponse;
 import com.backend.dto.MessageDTO;
 import com.backend.service.MessageDAO;
 import org.slf4j.Logger;
@@ -23,11 +22,9 @@ public class HTTPWebService {
 
     @ResponseBody
     @RequestMapping(value = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AddMessageResponse add(@RequestBody MessageDTO message, HttpServletRequest request) {
+    public void add(@RequestBody MessageDTO message, HttpServletRequest request) {
         log("/add", request);
-
-        boolean result = dao.add(message.getMessage());
-        return new AddMessageResponse(result);
+        dao.add(message.getMessage());
     }
 
     @ResponseBody

@@ -1,6 +1,5 @@
-package com.frontend.api;
+package com.frontend;
 
-import com.backend.dto.AddMessageResponse;
 import com.backend.dto.MessageDTO;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
@@ -47,15 +46,10 @@ public class HTTPController {
     @RequestMapping("/send")
     public MessageDTO[] send(@RequestParam(value = "message") String message) {
         log.info("HTTP POST {} [{}]", MESSAGE_URL, message);
-        AddMessageResponse response =  http.postForObject(MESSAGE_URL,
-                new MessageDTO(message), AddMessageResponse.class);
+        http.postForLocation(MESSAGE_URL, new MessageDTO(message));
 
-        if (response.isSuccess()) {
-            log.info("HTTP GET {}", MESSAGE_URL);
-            return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
-        } else {
-            throw new RuntimeException("Backend error");
-        }
+        log.info("HTTP GET {}", MESSAGE_URL);
+        return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
     }
 
     @RequestMapping("/sendJMS")
@@ -125,16 +119,11 @@ public class HTTPController {
             .supplyAsync(() -> {
                 log.info("in completable future");
                 log.info("HTTP POST {} [{}]", MESSAGE_URL, message);
-                return http.postForObject(MESSAGE_URL,
-                        new MessageDTO(message), AddMessageResponse.class);
+                return http.postForLocation(MESSAGE_URL, new MessageDTO(message));
             })
-            .thenApply((response) -> {
+            .thenApply((uri) -> {
                 log.info("HTTP GET {}", MESSAGE_URL);
-                if (response.isSuccess()) {
-                    return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
-                } else {
-                    throw new RuntimeException("Backend error in completable future");
-                }
+                return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
             }).get();
     }
 
