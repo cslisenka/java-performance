@@ -1,4 +1,4 @@
-package com.frontend;
+package com.app1;
 
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;

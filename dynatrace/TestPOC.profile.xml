@@ -456,7 +456,7 @@
       </sensorgroup>
       <sensorgroup>
         <sensor defaultorder="0" jssensorttype="" featurehash="" hint="Default Sensor Group for Java Method Sensor Rules" description="SpringBootFrontent" autoplace="true" type="java" key="com.dynatrace.diagnostics.sensorgroup.method.Java.49aa9ea108d0" userdefined="false" group="Methods" order="0">
-          <class delegationsuppression="false" placed="true" pattern="com.frontend.service.Backend" match="equals" techtype="java">
+          <class delegationsuppression="false" placed="true" pattern="com.app1.service.Backend" match="equals" techtype="java">
             <method placed="include" visibility="publicType" pattern="sendJMS" match="equals" inheritance="auto" capture="active" deepobjectaccessor="" argsspecified="true" onlyinstrumentifsynchappens="false" capturereturn="false" api="&lt;api unknown&gt;" overrideable="true" synctime="true">
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />
@@ -487,7 +487,7 @@
               <argument deepobjectaccessor="" argumentname="" pattern="java.net.Socket" match="equals" capture="false" />
             </method>
           </class>
-          <class delegationsuppression="false" placed="true" pattern="com.frontend.api.ProtocolDemo" match="equals" techtype="java">
+          <class delegationsuppression="false" placed="true" pattern="com.app1.api.ProtocolDemo" match="equals" techtype="java">
             <method placed="include" visibility="publicType" pattern="chat" match="equals" inheritance="auto" capture="active" deepobjectaccessor="" argsspecified="true" onlyinstrumentifsynchappens="false" capturereturn="false" api="&lt;api unknown&gt;" overrideable="true" synctime="true">
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />
@@ -505,7 +505,7 @@
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />
             </method>
           </class>
-          <class delegationsuppression="false" placed="true" pattern="com.frontend.api.ThreadsDemo" match="equals" techtype="java">
+          <class delegationsuppression="false" placed="true" pattern="com.app1.api.ThreadsDemo" match="equals" techtype="java">
             <method placed="include" visibility="publicType" pattern="chatNewThread" match="equals" inheritance="auto" capture="active" deepobjectaccessor="" argsspecified="true" onlyinstrumentifsynchappens="false" capturereturn="false" api="&lt;api unknown&gt;" overrideable="true" synctime="true">
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />
               <argument deepobjectaccessor="" argumentname="" pattern="java.lang.String" match="equals" capture="false" />

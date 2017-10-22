@@ -1,4 +1,4 @@
-package com.frontend.zipkin;
+package com.app1.zipkin;
 
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.http.DefaultSpanNameProvider;
@@ -6,7 +6,6 @@ import com.github.kristofa.brave.http.SpanNameProvider;
 import com.github.kristofa.brave.spring.BraveClientHttpRequestInterceptor;
 import com.github.kristofa.brave.spring.ServletHandlerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

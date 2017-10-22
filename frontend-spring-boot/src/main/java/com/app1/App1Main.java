@@ -1,6 +1,6 @@
-package com.frontend;
+package com.app1;
 
-import com.frontend.zipkin.ZipkinConfiguration;
+import com.app1.zipkin.ZipkinConfiguration;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.boot.SpringApplication;

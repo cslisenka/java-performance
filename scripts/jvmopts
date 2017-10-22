@@ -1,5 +1,5 @@
 # Instrumenting Java agent example
--javaagent:"E:\work\java-performance\java-performance\java-agent-instrumenting\target\java-agent-instrumenting-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.Backend=callHTTP="E:\work\java-performance\java-performance\java-agent-instrumenting\target"
+-javaagent:"E:\work\java-performance\java-performance\java-agent-instrumenting\target\java-agent-instrumenting-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.app1.service.Backend=callHTTP="E:\work\java-performance\java-performance\java-agent-instrumenting\target"
 
 # Logging Java agent example
 -javaagent:"E:\work\java-performance\java-performance\java-agent-logging\target\java-agent-logging-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
@@ -11,7 +11,7 @@
 -XX:+PrintGCApplicationStoppedTime -XX:+PrintSafepointStatistics -XX:PrintSafepointStatisticsCount=1
 
 # Instrumenting agent + dynatrace
--javaagent:"E:\work\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.frontend.service.BackendService=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target" -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=localhost:9998
+-javaagent:"E:\work\java-performance\java-agent\target\java-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar"=com.app1.service.BackendService=callHTTP="C:\Work\JAVA tech talks\Dynotrace\java-performance\java-agent\target" -agentpath:"C:\Program Files\dynaTrace\Dynatrace 6.5\agent\lib64\dtagentcore.dll"=name=Frontend_Spring_Boot_TestPOC,server=localhost:9998
 
 # Dynatrace agent configuration
 frontent:
