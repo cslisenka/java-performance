@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Frontend (Spring boot) application</title>
+    <title>App 1</title>
     <link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/jquery-3.2.1.min.js"></script>
     <style>
@@ -15,16 +15,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Frontend (Spring boot)</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <!--ul class="nav navbar-nav">
-                    <li><a href="http://localhost:8988" target="new">Backend #1 (Tomcat)</a></li>
-                    <li><a href="http://localhost:8987" target="new">Backend #2 (Tomcat)</a></li>
-                    <li><a href="http://localhost:8161/admin/" target="new">ActiveMQ</a></li>
-                    <li><a href="https://localhost:9911/index.jsp#transaction-flow" target="new">Dynatrace</a></li>
-                    <li><a href="http://localhost:9411/" target="new">Zipkin</a></li>
-                </ul-->
+                <a class="navbar-brand" href="#">App 1</a>
             </div>
         </div>
     </nav>
@@ -32,17 +23,14 @@
     <br><br><br>
 
     <div class="container">
-        <!-- Example row of columns -->
         <div class="row">
             <div class="col-md-6">
-                <h2>HTTP web-service call</h2>
-                <p class="lead">Browser <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>HTTP</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB</p>
+                <h2>HTTP to App 2</h2>
                 <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chat" name="I am HTTP" role="button">Do web-service call &raquo;</a></p>
             </div>
 
             <div class="col-md-6">
-                <h2>JMS</h2>
-                <p class="lead">Browser <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>JMS</kbd> &#8594; ActiveMQ <kbd>JMS</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB</p>
+                <h2>JMS to ActiveMQ</h2>
                 <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatAsync" name="I am JMS" role="button">Send JMS message &raquo;</a></p>
             </div>
         </div>
@@ -53,18 +41,14 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h2>TCP/IP custom protocol</h2>
-                <p class="lead">Browser <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>TCP</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB</p>
+                <h2>TCP/IP to App 2</h2>
                 <p>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatTcp" name="I am TCP" role="button">Send TCP message &raquo;</a>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatTcpTagging" name="I am TCP with tagging" role="button">Send and tag TCP message &raquo;</a>
                 </p>
             </div>
             <div class="col-md-6">
-                <h2>Async invocations</h2>
-                <p class="lead">
-                    Frontend <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>async + HTTP</kbd> &#8594; Tomcat <kbd>SQL</kbd> &#8594; DB
-                </p>
+                <h2>Async HTTP to App 2</h2>
                 <p>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatNewThread" name="I am HTTP in new thread" role="button">New thread &raquo;</a>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chatThreadPool" name="I am HTTP in thread pool" role="button">Thread pool + Callable &raquo;</a>
@@ -80,10 +64,7 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h2>Exceptions</h2>
-                <p class="lead">
-                    Frontend <kbd>HTTP</kbd> &#8594; Spring Boot <kbd>HTTP</kbd> &#8594; Tomcat &#8594; Exception!
-                </p>
+                <h2>Exception</h2>
                 <p>
                     <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/chat" name="error" role="button">Submit call with exception &raquo;</a>
                 </p>
