@@ -23,7 +23,7 @@ public class HTTPWebService {
     private ChatDAO dao;
 
     @ResponseBody
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public AddMessageResponse add(@RequestBody MessageDTO message, HttpServletRequest request) {
         log("/add", request);
 
@@ -32,7 +32,7 @@ public class HTTPWebService {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/message", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MessageDTO> getAll(HttpServletRequest request) {
         log("/get", request);
         return dao.getAll().stream().map(msg -> new MessageDTO(msg.getMessage())).collect(Collectors.toList());

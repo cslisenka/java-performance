@@ -31,8 +31,7 @@ public class HTTPController {
 
     private static final Logger log = LoggerFactory.getLogger(HTTPController.class);
 
-    public static final String ADD_MESSAGE_URL = "http://localhost:8988/add";
-    public static final String GET_MESSAGES_URL = "http://localhost:8988/getAll";
+    public static final String MESSAGE_URL = "http://localhost:8988/message";
 
     @Autowired
     private JmsTemplate jms;
@@ -47,17 +46,16 @@ public class HTTPController {
     @Qualifier("threadPool")
     private ExecutorService threadPool;
 
-
     @RequestMapping("/send")
     public TextMessage[] send(@RequestParam(value="name") String name,
                               @RequestParam(value="message") String message) {
-        log.info("HTTP POST {} [{}, {}]", ADD_MESSAGE_URL, name, message);
-        AddMessageResponse response =  http.postForObject(ADD_MESSAGE_URL,
+        log.info("HTTP POST {} [{}, {}]", MESSAGE_URL, name, message);
+        AddMessageResponse response =  http.postForObject(MESSAGE_URL,
                 new MessageDTO(message), AddMessageResponse.class);
 
         if (response.isSuccess()) {
-            log.info("HTTP GET {}", GET_MESSAGES_URL);
-            return http.getForEntity(GET_MESSAGES_URL, TextMessage[].class).getBody();
+            log.info("HTTP GET {}", MESSAGE_URL);
+            return http.getForEntity(MESSAGE_URL, TextMessage[].class).getBody();
         } else {
             throw new RuntimeException("Backend error");
         }
@@ -66,10 +64,8 @@ public class HTTPController {
     @RequestMapping("/sendJMS")
     public AsyncResponse sendJMS(@RequestParam(value="name") String name,
                                    @RequestParam(value="message") String message) {
-        final String messageText = name + "|" + message;
-        jms.send(chatQueue, session -> session.createTextMessage(messageText));
-
-        log.info("JMS SENT [{}] to {}", messageText, chatQueue);
+        jms.send(chatQueue, session -> session.createTextMessage(message));
+        log.info("JMS SENT [{}] to {}", message, chatQueue);
         return new AsyncResponse("JMS message has been sent to Active MQ");
     }
 
@@ -140,14 +136,14 @@ public class HTTPController {
         return CompletableFuture
             .supplyAsync(() -> {
                 log.info("in completable future");
-                log.info("HTTP POST {} [{}, {}]", ADD_MESSAGE_URL, name, message);
-                return http.postForObject(ADD_MESSAGE_URL,
+                log.info("HTTP POST {} [{}, {}]", MESSAGE_URL, name, message);
+                return http.postForObject(MESSAGE_URL,
                         new MessageDTO(message), AddMessageResponse.class);
             })
             .thenApply((response) -> {
-                log.info("HTTP GET {}", GET_MESSAGES_URL);
+                log.info("HTTP GET {}", MESSAGE_URL);
                 if (response.isSuccess()) {
-                    return http.getForEntity(GET_MESSAGES_URL, TextMessage[].class).getBody();
+                    return http.getForEntity(MESSAGE_URL, TextMessage[].class).getBody();
                 } else {
                     throw new RuntimeException("Backend error in completable future");
                 }

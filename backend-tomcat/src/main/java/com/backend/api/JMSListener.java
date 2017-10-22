@@ -21,31 +21,16 @@ public class JMSListener implements MessageListener {
 
     @Override
     public void onMessage(Message jmsMessage) {
-        String[] data = parse(jmsMessage); // name and message
-
-        if (data != null && data.length == 2) {
-            String name = data[0];
-            String message = data[1];
-            dao.add(message);
-        }
-    }
-
-    private String[] parse(Message jmsMessage) {
         if (jmsMessage instanceof TextMessage) {
             try {
                 String text = ((TextMessage) jmsMessage).getText();
-                log(jmsMessage, text);
-                return text.split("\\|");
-            } catch (JMSException e) {
+                log.info("JMS RECEIVED [{}] from {} Dynatrace [{}]", text,
+                        jmsMessage.getJMSDestination(), jmsMessage.getStringProperty("dtdTraceTagInfo"));
+
+                dao.add(text);
+            } catch (Exception e) {
                 log.error("Error parsing JMS message", e);
             }
         }
-
-        return null;
-    }
-
-    private void log(Message message, String text) throws JMSException {
-        log.info("JMS RECEIVED [{}] from {} Dynatrace [{}]",
-                text, message.getJMSDestination(), message.getStringProperty("dtdTraceTagInfo"));
     }
 }
