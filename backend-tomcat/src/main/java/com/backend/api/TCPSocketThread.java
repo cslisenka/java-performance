@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Collections;
 
 public class TCPSocketThread extends Thread {
 
@@ -32,13 +33,13 @@ public class TCPSocketThread extends Thread {
             try {
                 String[] data = receive(socket);
 
-                if (data.length == 3) { // Mark Dynatrace pure path if we received tag
+                if (data.length == 2) { // Mark Dynatrace pure path if we received tag
                     tagging = DynaTraceADKFactory.createTagging();
-                    tagging.setTagFromString(data[2]); // Dynatrace tag
+                    tagging.setTagFromString(data[1]); // Dynatrace tag
                     tagging.startServerPurePath();
                 }
 
-                dao.add(data[1]); // name and message
+                dao.add(data[0]); // name and message
                 send(socket, dao.getAll().toString());
             } finally {
                 socket.close();

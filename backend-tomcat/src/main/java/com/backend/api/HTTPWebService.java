@@ -35,7 +35,7 @@ public class HTTPWebService {
     @RequestMapping(value = "/message", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MessageDTO> getAll(HttpServletRequest request) {
         log("/get", request);
-        return dao.getAll().stream().map(msg -> new MessageDTO(msg.getMessage())).collect(Collectors.toList());
+        return dao.getAll();
     }
 
     private void log(String methodName, HttpServletRequest request) {

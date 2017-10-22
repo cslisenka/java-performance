@@ -62,31 +62,28 @@ public class HTTPController {
     }
 
     @RequestMapping("/sendJMS")
-    public AsyncResponse sendJMS(@RequestParam(value="name") String name,
-                                   @RequestParam(value="message") String message) {
+    public AsyncResponse sendJMS(@RequestParam(value = "message") String message) {
         jms.send(chatQueue, session -> session.createTextMessage(message));
         log.info("JMS SENT [{}] to {}", message, chatQueue);
         return new AsyncResponse("JMS message has been sent to Active MQ");
     }
 
     @RequestMapping(value = "/sendTcp")
-    public String sendTcp(@RequestParam(value="name") String name,
-                          @RequestParam(value="message") String message) throws IOException {
+    public String sendTcp(@RequestParam(value = "message") String message) throws IOException {
         try (Socket socket = new Socket("localhost", 8985)) {
-            sendTCP(name + "|" + message, socket);
+            sendTCP(message, socket);
             return receiveTCP(socket);
         }
     }
 
     @RequestMapping("/sendTcpTagging")
-    public String sendTcpTagging(@RequestParam(value="name") String name,
-                                 @RequestParam(value="message") String message) throws IOException {
+    public String sendTcpTagging(@RequestParam(value = "message") String message) throws IOException {
         Tagging tagging = DynaTraceADKFactory.createTagging();
         String requestTag = tagging.getTagAsString();
         tagging.linkClientPurePath(false, requestTag);
 
         try (Socket socket = new Socket("localhost", 8985)) {
-            sendTCP(name + "|" + message + "|" + requestTag, socket);
+            sendTCP(message + "|" + requestTag, socket);
             return receiveTCP(socket);
         }
     }
@@ -161,9 +158,7 @@ public class HTTPController {
     private String receiveTCP(Socket socket) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String result = reader.readLine();
-
         log.info("TCP RECEIVED " + socket.getRemoteSocketAddress() + " [" + result + "]");
-
         return result;
     }
 
