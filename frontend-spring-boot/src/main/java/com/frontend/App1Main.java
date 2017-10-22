@@ -1,15 +1,10 @@
 package com.frontend;
 
 import com.frontend.zipkin.ZipkinConfiguration;
-import com.netflix.loadbalancer.ILoadBalancer;
-import com.netflix.loadbalancer.LoadBalancerBuilder;
-import com.netflix.loadbalancer.Server;
-import com.netflix.loadbalancer.WeightedResponseTimeRule;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -17,8 +12,6 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Queue;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,10 +20,10 @@ import java.util.concurrent.Executors;
 @EnableJms
 @Configuration
 //@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
-public class FrontendMain {
+public class App1Main {
 
     public static void main(String[] args) {
-		SpringApplication.run(FrontendMain.class, args);
+		SpringApplication.run(App1Main.class, args);
     }
 
 //    @Bean

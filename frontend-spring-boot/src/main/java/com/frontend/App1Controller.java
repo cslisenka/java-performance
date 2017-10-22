@@ -23,9 +23,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
-public class HTTPController {
+public class App1Controller {
 
-    private static final Logger log = LoggerFactory.getLogger(HTTPController.class);
+    private static final Logger log = LoggerFactory.getLogger(App1Controller.class);
 
     public static final String MESSAGE_URL = "http://localhost:8988/message";
 
@@ -61,8 +61,17 @@ public class HTTPController {
     @RequestMapping(value = "/sendTcp")
     public String sendTcp(@RequestParam(value = "message") String message) throws IOException {
         try (Socket socket = new Socket("localhost", 8985)) {
-            sendTCP(message, socket);
-            return receiveTCP(socket);
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            writer.println(message);
+            writer.flush();
+            log.info("TCP SENT " + socket.getRemoteSocketAddress() + " [" + message + "]");
+
+            String result = reader.readLine();
+            log.info("TCP RECEIVED " + socket.getRemoteSocketAddress() + " [" + result + "]");
+
+            return result;
         }
     }
 
@@ -71,11 +80,7 @@ public class HTTPController {
         Tagging tagging = DynaTraceADKFactory.createTagging();
         String requestTag = tagging.getTagAsString();
         tagging.linkClientPurePath(false, requestTag);
-
-        try (Socket socket = new Socket("localhost", 8985)) {
-            sendTCP(message + "|" + requestTag, socket);
-            return receiveTCP(socket);
-        }
+        return sendTcp(message + "|" + requestTag);
     }
 
     @RequestMapping("/sendAsNewThread")
@@ -104,7 +109,7 @@ public class HTTPController {
     @RequestMapping("/sendToThreadPoolAsync")
     public MessageDTO sendToThreadPoolAsync(@RequestParam(value = "message") String message) throws Exception {
         threadPool.submit(() -> {
-            log.info("in thread pool + async invocation");
+            log.info("in thread pool");
             delay(1500);
             send(message);
         });
@@ -116,28 +121,13 @@ public class HTTPController {
     public MessageDTO[] sendAsCompletableFuture(@RequestParam(value = "message") String message) throws Exception {
         return CompletableFuture
             .supplyAsync(() -> {
-                log.info("in completable future");
-                log.info("HTTP POST {} [{}]", MESSAGE_URL, message);
+                log.info("in completable future HTTP POST {} [{}]", MESSAGE_URL, message);
                 return http.postForLocation(MESSAGE_URL, new MessageDTO(message));
             })
             .thenApply((uri) -> {
-                log.info("HTTP GET {}", MESSAGE_URL);
+                log.info("in completable future HTTP GET {}", MESSAGE_URL);
                 return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
             }).get();
-    }
-
-    private void sendTCP(String message, Socket socket) throws IOException {
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-        writer.println(message);
-        writer.flush();
-        log.info("TCP SEND " + socket.getRemoteSocketAddress() + " [" + message + "]");
-    }
-
-    private String receiveTCP(Socket socket) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String result = reader.readLine();
-        log.info("TCP RECEIVED " + socket.getRemoteSocketAddress() + " [" + result + "]");
-        return result;
     }
 
     @PostConstruct
