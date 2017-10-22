@@ -1,6 +1,5 @@
 package com.backend.api;
 
-import com.backend.dto.MessageDTO;
 import com.backend.service.MessageDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

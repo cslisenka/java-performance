@@ -9,7 +9,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>common</module>
 		<module>backend-tomcat</module>
 		<module>frontend-spring-boot</module>
 		<module>java-agent-instrumenting</module>

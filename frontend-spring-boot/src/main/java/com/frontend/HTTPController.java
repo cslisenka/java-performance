@@ -1,6 +1,5 @@
 package com.frontend;
 
-import com.backend.dto.MessageDTO;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
 import org.slf4j.Logger;

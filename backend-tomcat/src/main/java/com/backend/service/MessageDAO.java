@@ -1,6 +1,6 @@
 package com.backend.service;
 
-import com.backend.dto.MessageDTO;
+import com.backend.api.MessageDTO;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
