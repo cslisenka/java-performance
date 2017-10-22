@@ -1,11 +1,9 @@
 package com.frontend.api;
 
-import com.backend.dto.MessageDTO;
 import com.backend.dto.AddMessageResponse;
+import com.backend.dto.MessageDTO;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
-import com.frontend.api.dto.AsyncResponse;
-import com.frontend.api.dto.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,24 +45,24 @@ public class HTTPController {
     private ExecutorService threadPool;
 
     @RequestMapping("/send")
-    public TextMessage[] send(@RequestParam(value = "message") String message) {
+    public MessageDTO[] send(@RequestParam(value = "message") String message) {
         log.info("HTTP POST {} [{}]", MESSAGE_URL, message);
         AddMessageResponse response =  http.postForObject(MESSAGE_URL,
                 new MessageDTO(message), AddMessageResponse.class);
 
         if (response.isSuccess()) {
             log.info("HTTP GET {}", MESSAGE_URL);
-            return http.getForEntity(MESSAGE_URL, TextMessage[].class).getBody();
+            return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
         } else {
             throw new RuntimeException("Backend error");
         }
     }
 
     @RequestMapping("/sendJMS")
-    public AsyncResponse sendJMS(@RequestParam(value = "message") String message) {
+    public MessageDTO sendJMS(@RequestParam(value = "message") String message) {
         jms.send(chatQueue, session -> session.createTextMessage(message));
         log.info("JMS SENT [{}] to {}", message, chatQueue);
-        return new AsyncResponse("JMS message has been sent to Active MQ");
+        return new MessageDTO("JMS message has been sent to Active MQ");
     }
 
     @RequestMapping(value = "/sendTcp")
@@ -88,8 +86,8 @@ public class HTTPController {
     }
 
     @RequestMapping("/sendAsNewThread")
-    public TextMessage[] sendAsNewThread(@RequestParam(value = "message") String message) throws InterruptedException {
-        AtomicReference<TextMessage[]> result = new AtomicReference<>();
+    public MessageDTO[] sendAsNewThread(@RequestParam(value = "message") String message) throws InterruptedException {
+        AtomicReference<MessageDTO[]> result = new AtomicReference<>();
         // Dynatrace does not associate new thread with current pure path
         Thread newThread = new Thread(() -> {
             log.info("in new thread");
@@ -102,8 +100,8 @@ public class HTTPController {
     }
 
     @RequestMapping("/sendToThreadPool")
-    public TextMessage[] sendToThreadPool(@RequestParam(value = "message") String message) throws Exception {
-        Future<TextMessage[]> future = threadPool.submit(() -> {
+    public MessageDTO[] sendToThreadPool(@RequestParam(value = "message") String message) throws Exception {
+        Future<MessageDTO[]> future = threadPool.submit(() -> {
             log.info("in thread pool");
             return send(message);
         });
@@ -111,18 +109,18 @@ public class HTTPController {
     }
 
     @RequestMapping("/sendToThreadPoolAsync")
-    public AsyncResponse sendToThreadPoolAsync(@RequestParam(value = "message") String message) throws Exception {
+    public MessageDTO sendToThreadPoolAsync(@RequestParam(value = "message") String message) throws Exception {
         threadPool.submit(() -> {
             log.info("in thread pool + async invocation");
             delay(1500);
             send(message);
         });
 
-        return new AsyncResponse("HTTP call being executed asynchronously");
+        return new MessageDTO("HTTP call being executed asynchronously");
     }
 
     @RequestMapping("/sendAsCompletableFuture")
-    public TextMessage[] sendAsCompletableFuture(@RequestParam(value = "message") String message) throws Exception {
+    public MessageDTO[] sendAsCompletableFuture(@RequestParam(value = "message") String message) throws Exception {
         return CompletableFuture
             .supplyAsync(() -> {
                 log.info("in completable future");
@@ -133,7 +131,7 @@ public class HTTPController {
             .thenApply((response) -> {
                 log.info("HTTP GET {}", MESSAGE_URL);
                 if (response.isSuccess()) {
-                    return http.getForEntity(MESSAGE_URL, TextMessage[].class).getBody();
+                    return http.getForEntity(MESSAGE_URL, MessageDTO[].class).getBody();
                 } else {
                     throw new RuntimeException("Backend error in completable future");
                 }
