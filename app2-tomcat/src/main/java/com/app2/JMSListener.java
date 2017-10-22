@@ -1,9 +1,9 @@
-package com.backend.api;
+package com.app2;
 
-import com.backend.service.MessageDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.Message;
@@ -16,17 +16,16 @@ public class JMSListener implements MessageListener {
     private static final Logger log = LoggerFactory.getLogger(JMSListener.class);
 
     @Autowired
-    private MessageDAO dao;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void onMessage(Message jmsMessage) {
-        if (jmsMessage instanceof TextMessage) {
+    public void onMessage(Message msg) {
+        if (msg instanceof TextMessage) {
             try {
-                String text = ((TextMessage) jmsMessage).getText();
+                String text = ((TextMessage) msg).getText();
                 log.info("JMS RECEIVED [{}] from {} Dynatrace [{}]", text,
-                        jmsMessage.getJMSDestination(), jmsMessage.getStringProperty("dtdTraceTagInfo"));
-
-                dao.add(text);
+                        msg.getJMSDestination(), msg.getStringProperty("dtdTraceTagInfo"));
+                jdbcTemplate.update("INSERT INTO chat (message, timestamp) VALUES (?, NOW())", text);
             } catch (Exception e) {
                 log.error("Error parsing JMS message", e);
             }

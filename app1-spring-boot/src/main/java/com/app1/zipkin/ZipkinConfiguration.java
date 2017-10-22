@@ -46,7 +46,7 @@ public class ZipkinConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
     Brave brave() {
-        return new Brave.Builder("fromtend-spring-boot").reporter(reporter()).build();
+        return new Brave.Builder("app1-spring-boot").reporter(reporter()).build();
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.backend.zipkin;
+package com.app2.zipkin;
 
 import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.http.DefaultSpanNameProvider;
@@ -31,7 +31,7 @@ public class ZipkinConfiguration {
     }
 
     @Bean Brave brave() {
-        return new Brave.Builder("backend-tomcat").reporter(reporter()).build();
+        return new Brave.Builder("app2-tomcat").reporter(reporter()).build();
     }
 
     // decide how to name spans. By default they are named the same as the http method.

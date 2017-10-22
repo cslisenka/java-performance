@@ -1,4 +1,4 @@
-package com.backend.api;
+package com.app2;
 
 public class MessageDTO {
 

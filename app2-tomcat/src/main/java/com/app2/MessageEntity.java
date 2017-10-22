@@ -1,11 +1,11 @@
-package com.backend.service;
+package com.app2;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "chat")
-public class Message {
+public class MessageEntity {
 
     @Id
     @GeneratedValue

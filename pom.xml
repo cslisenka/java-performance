@@ -9,8 +9,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>backend-tomcat</module>
-		<module>frontend-spring-boot</module>
+		<module>app1-spring-boot</module>
+		<module>app2-tomcat</module>
 		<module>java-agent-instrumenting</module>
         <module>java-agent-logging</module>
 		<module>java-agent-monitoring</module>

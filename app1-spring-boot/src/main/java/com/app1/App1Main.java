@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 @SpringBootApplication
 @EnableJms
 @Configuration
-//@RibbonClient(name = "ribbon-backend", configuration = FrontendMain.class)
+//@RibbonClient(name = "ribbon-app2", configuration = FrontendMain.class)
 public class App1Main {
 
     public static void main(String[] args) {

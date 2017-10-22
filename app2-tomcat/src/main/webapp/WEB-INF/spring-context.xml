@@ -13,7 +13,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="com.backend" />
+    <context:component-scan base-package="com.app2" />
     <context:property-placeholder />
     <mvc:annotation-driven />
     <tx:annotation-driven/>
@@ -31,7 +31,7 @@
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="com.backend"/>
+        <property name="packagesToScan" value="com.app2"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="dialect">org.hibernate.dialect.MySQL5Dialect</prop>
@@ -61,7 +61,7 @@
         <property name="messageListener" ref="jmsListener" />
     </bean>
 
-    <bean id="serverSocket" class="com.backend.api.TCPSocketService">
+    <bean id="serverSocket" class="com.app2.TCPSocketReceiver">
         <constructor-arg value="${tcp.port:8985}"/>
     </bean>
 
@@ -72,5 +72,5 @@
         </mvc:interceptor>
     </mvc:interceptors>
     
-    <bean class="com.backend.zipkin.ZipkinConfiguration"/>
+    <bean class="com.app2.zipkin.ZipkinConfiguration"/>
 </beans>
