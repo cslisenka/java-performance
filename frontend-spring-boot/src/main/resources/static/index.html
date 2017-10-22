@@ -26,12 +26,12 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>HTTP to App 2</h2>
-                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" name="I am HTTP" role="button">Do web-service call &raquo;</a></p>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" message="HTTP to App 2" role="button">Execute &raquo;</a></p>
             </div>
 
             <div class="col-md-6">
                 <h2>JMS to ActiveMQ</h2>
-                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendJMS" name="I am JMS" role="button">Send JMS message &raquo;</a></p>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendJMS" message="JMS to ActiveMQ" role="button">Send &raquo;</a></p>
             </div>
         </div>
 
@@ -43,17 +43,17 @@
             <div class="col-md-6">
                 <h2>TCP/IP to App 2</h2>
                 <p>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcp" name="I am TCP" role="button">Send TCP message &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcpTagging" name="I am TCP with tagging" role="button">Send and tag TCP message &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcp" message="TCP to App 2" role="button">Send TCP &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcpTagging" message="TCP to App 2 with tagging" role="button">Send and tag TCP &raquo;</a>
                 </p>
             </div>
             <div class="col-md-6">
                 <h2>Async HTTP to App 2</h2>
                 <p>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsNewThread" name="I am HTTP in new thread" role="button">New thread &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPool" name="I am HTTP in thread pool" role="button">Thread pool + Callable &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPoolAsync" name="I am HTTP within async invocation" role="button">Thread pool + Callable, return immediately &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsCompletableFuture" name="I am HTTP in completable future" role="button">Completable future &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsNewThread" message="HTTP in new thread" role="button">New thread &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPool" message="HTTP in thread pool" role="button">Thread pool + Callable &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPoolAsync" message="HTTP within async invocation" role="button">Thread pool + Callable, return immediately &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsCompletableFuture" message="HTTP in completable future" role="button">Completable future &raquo;</a>
                 </p>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="col-md-6">
                 <h2>Exception</h2>
                 <p>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" name="error" role="button">Submit call with exception &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" message="error" role="button">Error &raquo;</a>
                 </p>
             </div>
         </div>
@@ -107,12 +107,11 @@
         $('#callHttpModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var url = button[0].attributes['url'].value;
-            var name = button[0].attributes['name'].value;
             counter++;
-            var message = "Hello, " + name + " (" + counter + ")";
-            var request = 'name=' + name + '&message=' + message;
+            var message = button[0].attributes['message'].value + "(" + counter + ")";
+            var request = 'message=' + message;
             var fullUrl = 'http://localhost:8080' + url + '?' + request;
-            var modal = $(this)
+            var modal = $(this);
 
             modal.find('.modal-title').text("GET " + fullUrl);
 

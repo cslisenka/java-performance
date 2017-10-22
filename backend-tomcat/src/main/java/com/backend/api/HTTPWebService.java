@@ -2,7 +2,7 @@ package com.backend.api;
 
 import com.backend.dto.AddMessageResponse;
 import com.backend.dto.MessageDTO;
-import com.backend.service.ChatDAO;
+import com.backend.service.MessageDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class HTTPWebService {
@@ -20,7 +19,7 @@ public class HTTPWebService {
     private static final Logger log = LoggerFactory.getLogger(HTTPWebService.class);
 
     @Autowired
-    private ChatDAO dao;
+    private MessageDAO dao;
 
     @ResponseBody
     @RequestMapping(value = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

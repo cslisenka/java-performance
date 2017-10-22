@@ -1,6 +1,6 @@
 package com.backend.api;
 
-import com.backend.service.ChatDAO;
+import com.backend.service.MessageDAO;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class TCPSocketService extends Thread {
     private final ServerSocket serverSocket;
 
     @Autowired
-    private ChatDAO dao;
+    private MessageDAO dao;
 
     public TCPSocketService(int port) throws IOException {
         serverSocket = new ServerSocket(port);

@@ -47,9 +47,8 @@ public class HTTPController {
     private ExecutorService threadPool;
 
     @RequestMapping("/send")
-    public TextMessage[] send(@RequestParam(value="name") String name,
-                              @RequestParam(value="message") String message) {
-        log.info("HTTP POST {} [{}, {}]", MESSAGE_URL, name, message);
+    public TextMessage[] send(@RequestParam(value = "message") String message) {
+        log.info("HTTP POST {} [{}]", MESSAGE_URL, message);
         AddMessageResponse response =  http.postForObject(MESSAGE_URL,
                 new MessageDTO(message), AddMessageResponse.class);
 
@@ -89,14 +88,12 @@ public class HTTPController {
     }
 
     @RequestMapping("/sendAsNewThread")
-    public TextMessage[] sendAsNewThread(@RequestParam(value="name") String name,
-                                       @RequestParam(value="message") String message) throws InterruptedException {
-        // SHOW THREAD LOCALS
+    public TextMessage[] sendAsNewThread(@RequestParam(value = "message") String message) throws InterruptedException {
         AtomicReference<TextMessage[]> result = new AtomicReference<>();
         // Dynatrace does not associate new thread with current pure path
         Thread newThread = new Thread(() -> {
             log.info("in new thread");
-            result.set(send(name, message));
+            result.set(send(message));
         });
 
         newThread.start();
@@ -105,35 +102,31 @@ public class HTTPController {
     }
 
     @RequestMapping("/sendToThreadPool")
-    public TextMessage[] sendToThreadPool(@RequestParam(value="name") String name,
-                                        @RequestParam(value="message") String message) throws Exception {
+    public TextMessage[] sendToThreadPool(@RequestParam(value = "message") String message) throws Exception {
         Future<TextMessage[]> future = threadPool.submit(() -> {
             log.info("in thread pool");
-            return send(name, message);
+            return send(message);
         });
         return future.get();
     }
 
     @RequestMapping("/sendToThreadPoolAsync")
-    public AsyncResponse sendToThreadPoolAsync(@RequestParam(value="name") String name,
-                                             @RequestParam(value="message") String message) throws Exception {
+    public AsyncResponse sendToThreadPoolAsync(@RequestParam(value = "message") String message) throws Exception {
         threadPool.submit(() -> {
             log.info("in thread pool + async invocation");
             delay(1500);
-            send(name, message);
+            send(message);
         });
 
         return new AsyncResponse("HTTP call being executed asynchronously");
     }
 
     @RequestMapping("/sendAsCompletableFuture")
-    public TextMessage[] sendAsCompletableFuture(@RequestParam(value="name") String name,
-                                               @RequestParam(value="message") String message) throws Exception {
-
+    public TextMessage[] sendAsCompletableFuture(@RequestParam(value = "message") String message) throws Exception {
         return CompletableFuture
             .supplyAsync(() -> {
                 log.info("in completable future");
-                log.info("HTTP POST {} [{}, {}]", MESSAGE_URL, name, message);
+                log.info("HTTP POST {} [{}]", MESSAGE_URL, message);
                 return http.postForObject(MESSAGE_URL,
                         new MessageDTO(message), AddMessageResponse.class);
             })
@@ -151,7 +144,6 @@ public class HTTPController {
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         writer.println(message);
         writer.flush();
-
         log.info("TCP SEND " + socket.getRemoteSocketAddress() + " [" + message + "]");
     }
 

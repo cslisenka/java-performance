@@ -1,6 +1,6 @@
 package com.backend.api;
 
-import com.backend.service.ChatDAO;
+import com.backend.service.MessageDAO;
 import com.dynatrace.adk.DynaTraceADKFactory;
 import com.dynatrace.adk.Tagging;
 import org.slf4j.Logger;
@@ -11,16 +11,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Collections;
 
 public class TCPSocketThread extends Thread {
 
     private static final Logger log = LoggerFactory.getLogger(TCPSocketService.class);
 
     private final Socket socket;
-    private final ChatDAO dao;
+    private final MessageDAO dao;
 
-    public TCPSocketThread(Socket socket, ChatDAO dao) throws IOException {
+    public TCPSocketThread(Socket socket, MessageDAO dao) throws IOException {
         this.socket = socket;
         this.dao = dao;
     }

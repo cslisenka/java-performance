@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ChatDAO {
+public class MessageDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -27,7 +27,7 @@ public class ChatDAO {
 
     public boolean add(String message) {
         // Simulating errors
-        if ("error".equals(message)) {
+        if (message.contains("error")) {
             throw new RuntimeException("backend error");
         }
 
@@ -39,7 +39,7 @@ public class ChatDAO {
     public List<MessageDTO> getAll() {
         List<Message> result = sessionFactory.getCurrentSession()
                 .createQuery("from Message msg order by msg.timestamp DESC")
-                .setMaxResults(2).list();
+                .setMaxResults(5).list();
 
         return result.stream().map(msg -> new MessageDTO(msg.getMessage())).collect(Collectors.toList());
     }
