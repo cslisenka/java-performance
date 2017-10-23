@@ -31,7 +31,7 @@ public class App2Controller {
 
     @RequestMapping(value = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public void add(@RequestBody MessageDTO dto, HttpServletRequest request) {
-        log.info("POST /message Dynatrace [{}], Zipkin [{}]", getHeaders("x-dynatrace", request), getHeaders("x-b3", request));
+//        log.info("POST /message Dynatrace [{}], Zipkin [{}]", getHeaders("x-dynatrace", request), getHeaders("x-b3", request));
         // Simulating errors
         if (dto.getMessage().contains("error")) {
             throw new RuntimeException("app2 error");

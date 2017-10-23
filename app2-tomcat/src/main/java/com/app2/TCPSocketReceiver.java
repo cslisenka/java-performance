@@ -21,6 +21,9 @@ public class TCPSocketReceiver extends Thread {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private App2Controller controller;
+
     public TCPSocketReceiver(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         start();
@@ -33,7 +36,7 @@ public class TCPSocketReceiver extends Thread {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new TCPSocketThread(socket, jdbcTemplate).start();
+                new TCPSocketThread(socket, jdbcTemplate, controller).start();
             } catch (IOException e) {
                 log.error("Error processing socket", e);
             }
