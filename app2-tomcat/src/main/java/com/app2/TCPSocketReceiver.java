@@ -4,7 +4,6 @@ import com.dynatrace.adk.DynaTraceADKFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,9 +16,6 @@ public class TCPSocketReceiver extends Thread {
     private static final Logger log = LoggerFactory.getLogger(TCPSocketReceiver.class);
 
     private final ServerSocket serverSocket;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private App2Controller controller;
@@ -36,7 +32,7 @@ public class TCPSocketReceiver extends Thread {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                new TCPSocketThread(socket, jdbcTemplate, controller).start();
+                new TCPSocketThread(socket, controller).start();
             } catch (IOException e) {
                 log.error("Error processing socket", e);
             }
