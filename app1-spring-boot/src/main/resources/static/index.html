@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>App 1</title>
+    <title>Spring Boot</title>
     <link href="/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/jquery-3.2.1.min.js"></script>
     <style>
@@ -15,7 +15,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">App 1</a>
+                <a class="navbar-brand" href="#">Spring Boot</a>
             </div>
         </div>
     </nav>
@@ -25,13 +25,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2>HTTP to App 2</h2>
-                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" message="HTTP to App 2" role="button">Execute &raquo;</a></p>
+                <h2>HTTP to Tomcat</h2>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" message="HTTP to Tomcat" role="button">Execute HTTP call &raquo;</a></p>
             </div>
 
             <div class="col-md-6">
                 <h2>JMS to ActiveMQ</h2>
-                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendJMS" message="JMS to ActiveMQ" role="button">Send &raquo;</a></p>
+                <p><a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendJMS" message="JMS to ActiveMQ" role="button">Send JMS message &raquo;</a></p>
             </div>
         </div>
 
@@ -41,19 +41,19 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h2>TCP/IP to App 2</h2>
+                <h2>TCP/IP to Tomcat</h2>
                 <p>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcp" message="TCP to App 2" role="button">Send TCP &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcpTagging" message="TCP to App 2 with tagging" role="button">Send and tag TCP &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcp" message="TCP to Tomcat" role="button">Send TCP message &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendTcpTagging" message="TCP to Tomcat with tagging" role="button">Send TCP message with Dynatrace Tag &raquo;</a>
                 </p>
             </div>
             <div class="col-md-6">
-                <h2>Async HTTP to App 2</h2>
+                <h2>Async HTTP to Tomcat</h2>
                 <p>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsNewThread" message="HTTP in new thread" role="button">New thread &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPool" message="HTTP in thread pool" role="button">Thread pool + Callable &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPoolAsync" message="HTTP within async invocation" role="button">Thread pool + Callable, return immediately &raquo;</a>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsCompletableFuture" message="HTTP in completable future" role="button">Completable future &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsNewThread" message="HTTP in new thread" role="button">Call HTTP from new thread &raquo;</a><br>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPool" message="HTTP in thread pool" role="button">Call HTTP from thread pool &raquo;</a><br>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendToThreadPoolAsync" message="HTTP within async invocation" role="button">Call HTTP from new thread, return immediately &raquo;</a><br>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/sendAsCompletableFuture" message="HTTP in completable future" role="button">Call HTTP from completable future &raquo;</a>
                 </p>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="col-md-6">
                 <h2>Exception</h2>
                 <p>
-                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" message="error" role="button">Error &raquo;</a>
+                    <a class="btn btn-default" href="#" data-toggle="modal" data-target="#callHttpModal" url="/send" message="error" role="button">Call HTTP and simulate error &raquo;</a>
                 </p>
             </div>
         </div>
